@@ -13,9 +13,10 @@ use Biswajit\Core\Player as SkyblockPlayer;
 use Biswajit\Core\Utils\Utils;
 use pocketmine\Server;
 
-class PlayerMenu extends MenuForm {
-
-    public function __construct(Player $damager, Player $victim) {
+class PlayerMenu extends MenuForm
+{
+    public function __construct(Player $damager, Player $victim)
+    {
         $item = $victim->getInventory()->getItemInHand();
         $damage = $item->getAttackPoints();
         $defense = ($victim instanceof SkyblockPlayer ? $victim->getDefense() : 0) + $victim->getArmorPoints();
@@ -34,8 +35,8 @@ class PlayerMenu extends MenuForm {
             $options[] = new MenuOption("§l§bREQUEST TRADE\n§l§9»» §r§oTap to request", new FormIcon("https://i.imgur.com/HNAHnLE.png", FormIcon::IMAGE_TYPE_URL));
         }
 
-            $options[] = new MenuOption("§l§bVISIT ISLAND\n§l§9»» §r§oTap to visit", new FormIcon("https://i.imgur.com/qt15cyk.png", FormIcon::IMAGE_TYPE_URL));
-           
+        $options[] = new MenuOption("§l§bVISIT ISLAND\n§l§9»» §r§oTap to visit", new FormIcon("https://i.imgur.com/qt15cyk.png", FormIcon::IMAGE_TYPE_URL));
+
         parent::__construct("§l§ePROFILE", "§bName:§e $name\n§bPing:§e $ping\n§bMoney In Purse:§e $coin\n§bGems:§e $gems\n§bDevice:§e $device\n\n§d§lSTATS:§r\n§7+ §cHealth: $heal" . "§7/§c$maxheal \n§7+ §aDefense: §a$defense \n§7+ §4Damage: $damage ", $options, function (Player $player, int $selected) use ($victim): void {
             switch ($selected) {
                 case 0:
@@ -55,7 +56,7 @@ class PlayerMenu extends MenuForm {
                         }
                     }
                     break;
-            
+
                 case 1:
                     $name = $victim->getName();
                     Server::getInstance()->dispatchCommand($player, "visit \"$name\"");

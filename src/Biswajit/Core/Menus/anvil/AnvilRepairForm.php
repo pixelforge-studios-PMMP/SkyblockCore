@@ -10,7 +10,6 @@ use dktapps\pmforms\MenuOption;
 
 class AnvilRepairForm extends MenuForm
 {
-
     public function __construct(Player $player)
     {
         $xp = $player->getXpManager()->getXpLevel();

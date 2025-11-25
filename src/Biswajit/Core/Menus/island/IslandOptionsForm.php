@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Biswajit\Core\Menus\island;
 
@@ -17,10 +17,9 @@ use Biswajit\Core\Sessions\IslandData;
 
 class IslandOptionsForm extends MenuForm
 {
-
     public function __construct(Player $player)
     {
-        IslandData::get($player->getName(), function(?IslandData $islandData): void {
+        IslandData::get($player->getName(), function (?IslandData $islandData): void {
             $visitStatus = $islandData ? $islandData->getVisit() : false;
 
             parent::__construct(
@@ -72,7 +71,7 @@ class IslandOptionsForm extends MenuForm
                         case 9:
                             $player->sendForm(new IslandUnBanPlayerForm($player));
                             break;
-                        case 10:  
+                        case 10:
                             if ($player->getWorld()->getFolderName() === $player->getName()) {
                                 foreach ($player->getWorld()->getEntities() as $entity) {
                                     if (str_contains($entity->getNameTag(), "Jerry") && !$entity instanceof Player) {

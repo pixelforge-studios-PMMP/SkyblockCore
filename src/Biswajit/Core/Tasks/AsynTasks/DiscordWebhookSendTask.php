@@ -6,15 +6,18 @@ namespace Biswajit\Core\Tasks\AsynTasks;
 
 use pocketmine\scheduler\AsyncTask;
 
-class DiscordWebhookSendTask extends AsyncTask {
+class DiscordWebhookSendTask extends AsyncTask
+{
     private string $payloadJson;
     private const TIMEOUT = 10;
 
-    public function __construct(string $payloadJson) {
+    public function __construct(string $payloadJson)
+    {
         $this->payloadJson = $payloadJson;
     }
 
-    public function onRun(): void {
+    public function onRun(): void
+    {
         $payload = json_decode($this->payloadJson, true);
 
         if (!is_array($payload)) {
@@ -33,8 +36,8 @@ class DiscordWebhookSendTask extends AsyncTask {
         $embed = [
             "title" => $payload["title"],
             "description" => $payload["description"] ?? "",
-            "color" => $payload["color"] ?? 0x00ff00, 
-            "timestamp" => date("c"), 
+            "color" => $payload["color"] ?? 0x00ff00,
+            "timestamp" => date("c"),
             "footer" => [
                 "text" => $payload["footer"] ?? "Powered by SkyblockCore"
             ]
@@ -68,13 +71,13 @@ class DiscordWebhookSendTask extends AsyncTask {
 
         $response = curl_exec($ch);
         $code = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
-        
+
         if ($error = curl_error($ch)) {
             $this->setResult([500, "CURL Error: " . $error]);
         } else {
             $this->setResult([$code, $response]);
         }
-        
+
         curl_close($ch);
     }
 }

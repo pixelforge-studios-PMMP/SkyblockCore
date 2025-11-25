@@ -6,15 +6,17 @@ namespace Biswajit\Core\Items;
 
 use customiesdevs\customies\item\ItemComponentsTrait;
 
-class minionItems extends skyblockItems {
-	use ItemComponentsTrait;
+class minionItems extends skyblockItems
+{
+    use ItemComponentsTrait;
 
-	public function isFireProof() : bool{
-		return true;
-	}
+    public function isFireProof(): bool
+    {
+        return true;
+    }
 
-	public function getMaxStackSize(): int
-	{
-		return 1;
-	}
+    public function getMaxStackSize(): int
+    {
+        return 1;
+    }
 }

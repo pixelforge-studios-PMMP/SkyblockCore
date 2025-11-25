@@ -25,7 +25,8 @@ class loadDataTask extends AsyncTask
         }
     }
 
-    public function onRun(): void {
+    public function onRun(): void
+    {
         try {
             $data = Internet::getURL($this->url, self::TIMEOUT, [], $err);
             if ($data === null || $err !== null) {
@@ -37,9 +38,10 @@ class loadDataTask extends AsyncTask
         }
     }
 
-    public function onCompletion(): void {
+    public function onCompletion(): void
+    {
         $result = $this->getResult();
-        
+
         if (is_array($result) && isset($result['error'])) {
             Server::getInstance()->getLogger()->error("Failed to download file: " . $result['error']);
             return;
@@ -51,11 +53,11 @@ class loadDataTask extends AsyncTask
             }
 
             $loaders = $this->getLoaders();
-            
+
             if (!empty($loaders)) {
                 Skyblock::getInstance()->getScheduler()->scheduleTask(
                     new ClosureTask(
-                        fn() => array_map(fn($loader) => $loader(), $loaders)
+                        fn () => array_map(fn ($loader) => $loader(), $loaders)
                     ),
                     120
                 );
@@ -65,17 +67,18 @@ class loadDataTask extends AsyncTask
         }
     }
 
-    private function getLoaders(): array {
+    private function getLoaders(): array
+    {
         return match($this->type) {
             'hub' => [
-                fn() => API::loadHub(),
-                fn() => API::setHubTime()
+                fn () => API::loadHub(),
+                fn () => API::setHubTime()
             ],
             'island' => [
-                fn() => IslandManager::loadIslands()
+                fn () => IslandManager::loadIslands()
             ],
             'pack' => [
-                fn() => API::applyResourcePack()
+                fn () => API::applyResourcePack()
             ],
             default => []
         };

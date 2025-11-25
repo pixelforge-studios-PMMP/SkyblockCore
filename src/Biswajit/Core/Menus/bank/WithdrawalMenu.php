@@ -23,9 +23,9 @@ class WithdrawalMenu extends MenuForm
         ], function (Player $sender, int $selected): void {
             switch ($selected) {
                 case 0:
-                  if (BankManager::getBankMoney($sender) == 0){
-                     $sender->sendMessage(Skyblock::$prefix . API::getMessage("bank.nowithdral"));
-                     return;
+                    if (BankManager::getBankMoney($sender) == 0) {
+                        $sender->sendMessage(Skyblock::$prefix . API::getMessage("bank.nowithdral"));
+                        return;
                     }
 
                     EconomyManager::addMoney($sender, BankManager::getBankMoney($sender));
@@ -33,9 +33,9 @@ class WithdrawalMenu extends MenuForm
                     BankManager::reduceBankMoney($sender, BankManager::getBankMoney($sender));
                     break;
                 case 1:
-                 if (BankManager::getBankMoney($sender) === 0){
-                     $sender->sendMessage(Skyblock::$prefix . API::getMessage("bank.nowithdral"));
-                     return;
+                    if (BankManager::getBankMoney($sender) === 0) {
+                        $sender->sendMessage(Skyblock::$prefix . API::getMessage("bank.nowithdral"));
+                        return;
                     }
 
                     EconomyManager::addMoney($sender, BankManager::getBankMoney($sender) / 2);

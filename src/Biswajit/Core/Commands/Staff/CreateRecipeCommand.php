@@ -12,7 +12,6 @@ use pocketmine\utils\TextFormat;
 
 class CreateRecipeCommand extends Command
 {
-   
     public function __construct()
     {
         parent::__construct("createrecipe", "create a new recipe", "/cr <name>", ["cr"]);

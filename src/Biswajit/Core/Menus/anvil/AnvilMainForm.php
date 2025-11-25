@@ -9,7 +9,6 @@ use dktapps\pmforms\MenuOption;
 
 class AnvilMainForm extends MenuForm
 {
-
     public function __construct()
     {
         parent::__construct(
@@ -33,7 +32,6 @@ class AnvilMainForm extends MenuForm
                         break;
                 }
             }
-
         );
     }
 }

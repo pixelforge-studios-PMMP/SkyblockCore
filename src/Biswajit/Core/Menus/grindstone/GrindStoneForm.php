@@ -9,7 +9,6 @@ use dktapps\pmforms\MenuOption;
 
 class GrindStoneForm extends MenuForm
 {
-
     public function __construct()
     {
         parent::__construct(

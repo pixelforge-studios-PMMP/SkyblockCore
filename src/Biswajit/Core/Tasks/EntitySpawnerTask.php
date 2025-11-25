@@ -62,8 +62,12 @@ class EntitySpawnerTask extends Task
                 $location = new Location($data['x'], $data['y'], $data['z'], $world, 0, 0);
 
                 $boundingBox = new AxisAlignedBB(
-                    $data['x'] - 2, $data['y'] - 2, $data['z'] - 2,
-                    $data['x'] + 2, $data['y'] + 2, $data['z'] + 2
+                    $data['x'] - 2,
+                    $data['y'] - 2,
+                    $data['z'] - 2,
+                    $data['x'] + 2,
+                    $data['y'] + 2,
+                    $data['z'] + 2
                 );
                 $existingEntities = $world->getNearbyEntities($boundingBox);
                 $entityExists = false;

@@ -32,8 +32,9 @@ class TradeForm extends MenuForm
     {
         $count = 0;
         foreach ($player->getInventory()->getContents() as $item) {
-            if ($item->getStateId() === $id->getStateId())
+            if ($item->getStateId() === $id->getStateId()) {
                 $count = $count + $item->getCount();
+            }
         }
         return $count;
     }

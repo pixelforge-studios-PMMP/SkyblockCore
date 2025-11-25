@@ -10,7 +10,6 @@ use dktapps\pmforms\MenuOption;
 
 class HideForm extends MenuForm
 {
-
     public array $hidePlayer = [];
 
     public function __construct()
@@ -28,7 +27,7 @@ class HideForm extends MenuForm
                     case 0:
                         foreach (Server::getInstance()->getOnlinePlayers() as $player) {
                             $sender->hidePlayer($player);
-                            $sender->sendTitle("§6Done! ", "§eAll Players Are Now Hidden"); 
+                            $sender->sendTitle("§6Done! ", "§eAll Players Are Now Hidden");
                         }
                         break;
                     case 1:

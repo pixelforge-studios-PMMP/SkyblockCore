@@ -24,11 +24,12 @@ class RankTask extends Task
         $this->checkAndExpireTempRanks();
     }
 
-    private function checkAndExpireTempRanks(): void {
+    private function checkAndExpireTempRanks(): void
+    {
         foreach ($this->source->getServer()->getOnlinePlayers() as $player) {
             if ($player instanceof Player) {
                 RankManager::checkAndExpireTempRank($player);
-              }
-          }
-      }
-   }
+            }
+        }
+    }
+}

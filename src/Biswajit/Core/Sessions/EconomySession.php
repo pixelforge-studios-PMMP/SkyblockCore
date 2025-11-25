@@ -1,23 +1,24 @@
-<?php 
+<?php
 
-declare(strict_types = 1);
+
+declare(strict_types=1);
 
 namespace Biswajit\Core\Sessions;
 
 use Biswajit\Core\Skyblock;
 
-trait EconomySession {
-
+trait EconomySession
+{
     private array $economyData = [];
 
-     public function loadEconomy(): void {
+    public function loadEconomy(): void
+    {
         Skyblock::getInstance()->getDataBase()->executeSelect(
             'economy.load',
             [
                 'uuid' => $this->getUniqueId()->toString()
             ],
-            function (array $rows): void
-            {
+            function (array $rows): void {
                 if (count($rows) == 0) {
                     $this->createEconomy();
                     return;
@@ -27,18 +28,23 @@ trait EconomySession {
         );
     }
 
-    public function createEconomy(): void {
-       $this->setEconomy("name", $this->getName());
-       Skyblock::getInstance()->getDataBase()->executeInsert(
+    public function createEconomy(): void
+    {
+        $this->setEconomy("name", $this->getName());
+        Skyblock::getInstance()->getDataBase()->executeInsert(
             'economy.create',
             [
-                'uuid' => $this->getUniqueId()->toString(),
-                'data' => json_encode([$this->economyData])
-            ]);
+                 'uuid' => $this->getUniqueId()->toString(),
+                 'data' => json_encode([$this->economyData])
+             ]
+        );
     }
 
-    public function saveEconomy(): void {
-        if(empty($this->economyData)) return;
+    public function saveEconomy(): void
+    {
+        if (empty($this->economyData)) {
+            return;
+        }
 
         Skyblock::getInstance()->getDataBase()->executeChange('economy.update', [
             'uuid' => $this->getUniqueId()->toString(),
@@ -48,11 +54,13 @@ trait EconomySession {
         unset($this->economyData);
     }
 
-    public function setEconomy(string $key, mixed $value): void {
+    public function setEconomy(string $key, mixed $value): void
+    {
         $this->economyData[$key] = $value;
     }
 
-    public function getEconomy(string $key): mixed {
+    public function getEconomy(string $key): mixed
+    {
         return $this->economyData[$key] ?? null;
     }
 }

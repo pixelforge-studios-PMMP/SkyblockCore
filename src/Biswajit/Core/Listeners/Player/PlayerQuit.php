@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Biswajit\Core\Listeners\Player;
 
@@ -13,27 +13,30 @@ use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\Server;
 
-class PlayerQuit implements Listener {
-
-    public function onJoin(PlayerQuitEvent $event): void {
+class PlayerQuit implements Listener
+{
+    public function onJoin(PlayerQuitEvent $event): void
+    {
         $player = $event->getPlayer();
         $name = $player->getName();
 
-        if (!$player instanceof Player) return;
+        if (!$player instanceof Player) {
+            return;
+        }
 
         $event->setQuitMessage(API::getMessage("Quit", ["{player}" => $name]));
-        $player->save();
+        $player->saveAll();
 
         //To Fix The Chunk Load Error!!
         $hub = Server::getInstance()->getWorldManager()->getWorldByName(Skyblock::getInstance()->getConfig()->get("HUB"));
         $player->teleport($hub->getSafeSpawn());
-        
+
         RankManager::removeAttach($player);
 
-        if(isset(BankManager::$interest[$player->getName()])) {
-          if(!array_key_exists($player->getName(), BankManager::$interest)) {
-            BankManager::$interest[$player->getName()]->cancel();
-          } 
-       }
+        if (isset(BankManager::$interest[$player->getName()])) {
+            if (!array_key_exists($player->getName(), BankManager::$interest)) {
+                BankManager::$interest[$player->getName()]->cancel();
+            }
+        }
     }
 }

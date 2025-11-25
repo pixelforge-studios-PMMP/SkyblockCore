@@ -16,23 +16,26 @@ use pocketmine\network\mcpe\protocol\types\inventory\WindowTypes;
 use pocketmine\player\Player;
 use pocketmine\world\Position;
 
-final class CraftingTableInvMenuType implements InvMenuType{
+final class CraftingTableInvMenuType implements InvMenuType
+{
+    private InvMenuType $inner;
 
-	private InvMenuType $inner;
+    public function __construct()
+    {
+        $this->inner = InvMenuTypeBuilders::BLOCK_FIXED()
+            ->setBlock(VanillaBlocks::CRAFTING_TABLE())
+            ->setSize(9)
+            ->setNetworkWindowType(WindowTypes::WORKBENCH)
+            ->build();
+    }
 
-	public function __construct(){
-		$this->inner = InvMenuTypeBuilders::BLOCK_FIXED()
-			->setBlock(VanillaBlocks::CRAFTING_TABLE())
-			->setSize(9)
-			->setNetworkWindowType(WindowTypes::WORKBENCH)
-			->build();
-	}
+    public function createGraphic(InvMenu $menu, Player $player): ?InvMenuGraphic
+    {
+        return $this->inner->createGraphic($menu, $player);
+    }
 
-	public function createGraphic(InvMenu $menu, Player $player) : ?InvMenuGraphic{
-		return $this->inner->createGraphic($menu, $player);
-	}
-
-	public function createInventory() : Inventory{
-		return new CraftingTableInventory(Position::fromObject(Vector3::zero(), null));
-	}
+    public function createInventory(): Inventory
+    {
+        return new CraftingTableInventory(Position::fromObject(Vector3::zero(), null));
+    }
 }

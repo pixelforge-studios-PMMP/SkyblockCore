@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Biswajit\Core\Menus\bank;
 
@@ -16,7 +16,8 @@ use dktapps\pmforms\element\Label;
 
 class CustomDepositMenu extends CustomForm
 {
-    public function __construct(Player $player) {
+    public function __construct(Player $player)
+    {
 
         parent::__construct(
             "§l§cCUSTOM DEPOSIT",
@@ -27,29 +28,29 @@ class CustomDepositMenu extends CustomForm
             function (Player $player, CustomFormResponse $response): void {
                 $input = $response->getString("amount");
 
-            if (EconomyManager::getMoney($player) == 0){
-                $player->sendMessage(Skyblock::$prefix . API::getMessage("bank.nodeposit"));
-                return;
-            }
+                if (EconomyManager::getMoney($player) == 0) {
+                    $player->sendMessage(Skyblock::$prefix . API::getMessage("bank.nodeposit"));
+                    return;
+                }
 
-            if (EconomyManager::getMoney($player) < $input){
-                $player->sendMessage(Skyblock::$prefix . API::getMessage("bank.nodeposit"));
-                return;
-            }
+                if (EconomyManager::getMoney($player) < $input) {
+                    $player->sendMessage(Skyblock::$prefix . API::getMessage("bank.nodeposit"));
+                    return;
+                }
 
-            if (!is_numeric($input)){
-                $player->sendMessage(Skyblock::$prefix . API::getMessage("bank.wrong-amount"));
-                return;
-            }
+                if (!is_numeric($input)) {
+                    $player->sendMessage(Skyblock::$prefix . API::getMessage("bank.wrong-amount"));
+                    return;
+                }
 
-            if ($input <= 0){
-                $player->sendMessage(Skyblock::$prefix . API::getMessage("bank.vaild-amount"));
-                return;
-            }
+                if ($input <= 0) {
+                    $player->sendMessage(Skyblock::$prefix . API::getMessage("bank.vaild-amount"));
+                    return;
+                }
 
-            BankManager::addBankMoney($player, (float) $input);
-            $player->sendMessage(Skyblock::$prefix . API::getMessage("bank.deposit-seccess", ["{AMOUNT}" => (string)$input]));
-            EconomyManager::subtractMoney($player, (float) $input);
+                BankManager::addBankMoney($player, (float) $input);
+                $player->sendMessage(Skyblock::$prefix . API::getMessage("bank.deposit-seccess", ["{AMOUNT}" => (string)$input]));
+                EconomyManager::subtractMoney($player, (float) $input);
             }
         );
     }

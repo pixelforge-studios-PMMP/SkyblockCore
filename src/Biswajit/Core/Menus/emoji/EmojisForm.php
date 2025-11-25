@@ -10,7 +10,6 @@ use pocketmine\utils\Config;
 
 class EmojisForm extends CustomForm
 {
-
     public function __construct()
     {
         $emojisConfig = new Config(Skyblock::getInstance()->getDataFolder() . "emojis.yml", Config::YAML);

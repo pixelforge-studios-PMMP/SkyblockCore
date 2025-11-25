@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Biswajit\Core\Managers;
 
@@ -16,26 +16,26 @@ use pocketmine\world\format\Chunk;
 use pocketmine\world\Position;
 use pocketmine\world\World;
 
-class BlockManager {
-
-  use ManagerBase;
+class BlockManager
+{
+    use ManagerBase;
 
     private static array $blockStates = [];
     private static int $blockIterator = 0;
 
-     public static array $forest = [
-        BlockTypeIds::OAK_WOOD,
-        BlockTypeIds::SPRUCE_WOOD,
-        BlockTypeIds::JUNGLE_WOOD,
-        BlockTypeIds::ACACIA_WOOD,
-        BlockTypeIds::BIRCH_WOOD,
-        BlockTypeIds::DARK_OAK_WOOD,
-        BlockTypeIds::OAK_LOG,
-        BlockTypeIds::SPRUCE_LOG,
-        BlockTypeIds::JUNGLE_LOG,
-        BlockTypeIds::ACACIA_LOG,
-        BlockTypeIds::BIRCH_LOG,
-        BlockTypeIds::DARK_OAK_LOG
+    public static array $forest = [
+       BlockTypeIds::OAK_WOOD,
+       BlockTypeIds::SPRUCE_WOOD,
+       BlockTypeIds::JUNGLE_WOOD,
+       BlockTypeIds::ACACIA_WOOD,
+       BlockTypeIds::BIRCH_WOOD,
+       BlockTypeIds::DARK_OAK_WOOD,
+       BlockTypeIds::OAK_LOG,
+       BlockTypeIds::SPRUCE_LOG,
+       BlockTypeIds::JUNGLE_LOG,
+       BlockTypeIds::ACACIA_LOG,
+       BlockTypeIds::BIRCH_LOG,
+       BlockTypeIds::DARK_OAK_LOG
     ];
 
     public static array $farming = [
@@ -47,7 +47,7 @@ class BlockManager {
         BlockTypeIds::MELON,
         BlockTypeIds::CARROTS,
         BlockTypeIds::POTATOES,
-        BlockTypeIds::SUGARCANE 
+        BlockTypeIds::SUGARCANE
     ];
 
     public static array $mineBlocks = [
@@ -63,64 +63,67 @@ class BlockManager {
         BlockTypeIds::LAPIS_LAZULI_ORE
     ];
 
-    public function onEnable(): void {
+    public function onEnable(): void
+    {
 
-       $file = $this->getDataFolder() . "data.json";
-		if (is_file($file)) {
-			$contents = file_get_contents($file);
-			if (!is_string($contents)) {
-				return;
-			}
+        $file = $this->getDataFolder() . "data.json";
+        if (is_file($file)) {
+            $contents = file_get_contents($file);
+            if (!is_string($contents)) {
+                return;
+            }
 
-			foreach (json_decode($contents, true) as $blockData) {
-				$x = $blockData["x"];
-				$y = $blockData["y"];
-				$z = $blockData["z"];
-				$world = $this->getServer()->getWorldManager()->getWorldByName($blockData["world"]);
-				$name = $blockData["name"];
+            foreach (json_decode($contents, true) as $blockData) {
+                $x = $blockData["x"];
+                $y = $blockData["y"];
+                $z = $blockData["z"];
+                $world = $this->getServer()->getWorldManager()->getWorldByName($blockData["world"]);
+                $name = $blockData["name"];
 
-				// this will force the server to wait for the results so that it doesn't crash when chunk is unloaded
-				/** @phpstan-ignore-next-line */
-				if ($world instanceof World && $world->requestChunkPopulation($x >> Chunk::COORD_BIT_SIZE, $z >> Chunk::COORD_BIT_SIZE, null) instanceof Promise) {
-          $block = StringToItemParser::getInstance()->parse($name)->getBlock();
-					$world->setBlock(new Position($x, $y, $z, $world), $block, false);
+                // this will force the server to wait for the results so that it doesn't crash when chunk is unloaded
+                /** @phpstan-ignore-next-line */
+                if ($world instanceof World && $world->requestChunkPopulation($x >> Chunk::COORD_BIT_SIZE, $z >> Chunk::COORD_BIT_SIZE, null) instanceof Promise) {
+                    $block = StringToItemParser::getInstance()->parse($name)->getBlock();
+                    $world->setBlock(new Position($x, $y, $z, $world), $block, false);
 
-            self::getPlugin()->getScheduler()->scheduleDelayedTask(new ClosureTask(function() use ($world, $x, $y, $z, $block): void {
-              $block = $world->getBlockAt($x, $y, $z);
-              if($block instanceof Crops) {
-                $block->setAge($block->getMaxAge());
-              }
-            }), 20);
-				}
-			}
-			@unlink($file);
-		}
-	}
-
-    public static function Disable(): void {
-      file_put_contents(Skyblock::getInstance()->getDataFolder() . "data.json", json_encode(self::$blockStates));
+                    self::getPlugin()->getScheduler()->scheduleDelayedTask(new ClosureTask(function () use ($world, $x, $y, $z, $block): void {
+                        $block = $world->getBlockAt($x, $y, $z);
+                        if ($block instanceof Crops) {
+                            $block->setAge($block->getMaxAge());
+                        }
+                    }), 20);
+                }
+            }
+            @unlink($file);
+        }
     }
 
-    public static function mineBlockRespawn(Block $block, $pos): void {
-      $world = $pos->getWorld();
-      $x = $pos->x;
-      $y = $pos->y;
-      $z = $pos->z;
-
-      $i = self::$blockIterator++;
-		self::$blockStates[$i] = [
-			"x" => $x,
-			"y" => $y,
-			"z" => $z,
-			"world" => $world->getFolderName(),
-			"name" => $block->getName()
-		];
-
-    Skyblock::getInstance()->getScheduler()->scheduleDelayedTask(new ClosureTask(function () use ($world, $x, $y, $z, $block, $i): void {
-        $world->setBlock(new Vector3($x, $y, $z), $block);
-        if (isset(self::$blockStates[$i])) {
-		      unset(self::$blockStates[$i]);
-	    	}
-      }), Skyblock::getInstance()->getConfig()->get("RESPAWN-TIME") * 20);
+    public static function Disable(): void
+    {
+        file_put_contents(Skyblock::getInstance()->getDataFolder() . "data.json", json_encode(self::$blockStates));
     }
-  }
+
+    public static function mineBlockRespawn(Block $block, $pos): void
+    {
+        $world = $pos->getWorld();
+        $x = $pos->x;
+        $y = $pos->y;
+        $z = $pos->z;
+
+        $i = self::$blockIterator++;
+        self::$blockStates[$i] = [
+            "x" => $x,
+            "y" => $y,
+            "z" => $z,
+            "world" => $world->getFolderName(),
+            "name" => $block->getName()
+        ];
+
+        Skyblock::getInstance()->getScheduler()->scheduleDelayedTask(new ClosureTask(function () use ($world, $x, $y, $z, $block, $i): void {
+            $world->setBlock(new Vector3($x, $y, $z), $block);
+            if (isset(self::$blockStates[$i])) {
+                unset(self::$blockStates[$i]);
+            }
+        }), Skyblock::getInstance()->getConfig()->get("RESPAWN-TIME") * 20);
+    }
+}

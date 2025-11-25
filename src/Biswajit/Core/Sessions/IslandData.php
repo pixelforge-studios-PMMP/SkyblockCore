@@ -124,7 +124,7 @@ class IslandData
             return;
         }
 
-        Skyblock::getInstance()->getDataBase()->executeSelect("skyblockIsland.getIslandData", ["player" => $islandName], function(array $rows) use ($callback, $islandName): void {
+        Skyblock::getInstance()->getDataBase()->executeSelect("skyblockIsland.getIslandData", ["player" => $islandName], function (array $rows) use ($callback, $islandName): void {
             if (count($rows) > 0) {
                 $data = new self($islandName, json_decode($rows[0]["data"], true));
                 self::$cache[$islandName] = $data;

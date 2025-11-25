@@ -9,20 +9,19 @@ use pocketmine\item\ItemTypeIds;
 
 class minionHeads extends minionItems implements ItemComponents
 {
+    private string $type;
 
-	private string $type;
+    public function __construct(string $texture, string $name, string $type)
+    {
+        parent::__construct(new ItemIdentifier(ItemTypeIds::newId()), $name);
+        $this->initComponent($texture);
+        $this->addGlow();
+        $this->type = $type;
+    }
 
-	public function __construct(string $texture, string $name, string $type)
-	{
-		parent::__construct(new ItemIdentifier(ItemTypeIds::newId()), $name);
-		$this->initComponent($texture);
-		$this->addGlow();
-		$this->type = $type;
-	}
-
-	public function getType(): string
-	{
-		return $this->type;
-	}
+    public function getType(): string
+    {
+        return $this->type;
+    }
 
 }

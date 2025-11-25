@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Biswajit\Core\Menus\island\partner;
 
@@ -28,7 +28,7 @@ class PartnerAddForm extends MenuForm
                 if (!$menuOption instanceof MenuOption) {
                     return;
                 }
-                
+
                 $selectedPlayer = $menuOption->getText();
                 IslandManager::partnerRequest($player, $selectedPlayer);
             }

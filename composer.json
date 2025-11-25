@@ -11,7 +11,8 @@
         "muqsit/invmenu": "^4.7",
         "ivancraft623/pathfinder": "dev-main",
 		"ext-zip": "*",
-		"ext-gd": "*"
+		"ext-gd": "*",
+        "cortexpe/commando": "dev-master"
 	},
     "autoload": {
         "psr-4": {

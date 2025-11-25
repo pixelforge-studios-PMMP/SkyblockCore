@@ -23,13 +23,14 @@ class LoanTask extends Task
         $this->checkLoans();
     }
 
-    public function checkLoans(): void {
-      foreach ($this->source->getServer()->getOnlinePlayers() as $player) {
-         if (BankManager::getLoan($player) > 0) {
-             if (BankManager::getLoanTime($player) < time()) { 
-                BankManager::recoverLoan($player);
-             }
-           }
-         }
-      }
+    public function checkLoans(): void
+    {
+        foreach ($this->source->getServer()->getOnlinePlayers() as $player) {
+            if (BankManager::getLoan($player) > 0) {
+                if (BankManager::getLoanTime($player) < time()) {
+                    BankManager::recoverLoan($player);
+                }
+            }
+        }
     }
+}

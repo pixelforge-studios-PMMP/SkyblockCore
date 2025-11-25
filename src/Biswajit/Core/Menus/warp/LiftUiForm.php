@@ -13,7 +13,6 @@ use pocketmine\Server;
 
 class LiftUiForm extends MenuForm
 {
-
     public function __construct()
     {
         parent::__construct("§l§eMagic Skyblock Lift Operator", "§6Please Select The Cave You Want To Telport", [

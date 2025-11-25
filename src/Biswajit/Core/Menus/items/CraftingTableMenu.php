@@ -13,7 +13,6 @@ use dktapps\pmforms\MenuOption;
 
 class CraftingTableMenu extends MenuForm
 {
-
     public function __construct()
     {
         parent::__construct(

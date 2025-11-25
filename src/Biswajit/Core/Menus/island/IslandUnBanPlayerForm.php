@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Biswajit\Core\Menus\island;
 
@@ -22,7 +22,7 @@ class IslandUnBanPlayerForm extends MenuForm
         foreach ($bannedIslands as $item => $value) {
             $options[] = new MenuOption($value);
         }
-        
+
         parent::__construct(
             Skyblock::$prefix . "Remove Player Ban",
             "\n",
@@ -32,7 +32,7 @@ class IslandUnBanPlayerForm extends MenuForm
                 if (!$menuOption instanceof MenuOption) {
                     return;
                 }
-                
+
                 $selectedPlayer = $menuOption->getText();
                 IslandManager::islandUnBanPlayer($player, $selectedPlayer);
             }

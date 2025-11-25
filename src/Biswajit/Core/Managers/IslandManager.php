@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Biswajit\Core\Managers;
 
@@ -9,26 +9,25 @@ use Biswajit\Core\Menus\island\partner\PartnerRequestForm;
 use Biswajit\Core\Player;
 use Biswajit\Core\Sessions\IslandData;
 use Biswajit\Core\Skyblock;
-use Biswajit\Core\Utils\Utils;
 use pocketmine\world\World;
 use ZipArchive;
 
 class IslandManager
 {
     use ManagerBase;
-    
+
     public static function loadIslands(): void
     {
-        $worldPath = Skyblock::getInstance()->getDataFolder() . "island/Islands.zip"; 
-        if(file_exists($worldPath))
-        {
+        $worldPath = Skyblock::getInstance()->getDataFolder() . "island/Islands.zip";
+
+        if (file_exists($worldPath)) {
             $zip = new ZipArchive();
             $zip->open($worldPath);
             $zip->extractTo(Skyblock::getInstance()->getDataFolder() . "island");
-            $zip->close();    
+            $zip->close();
         }
     }
-    
+
     public static function islandVisit(Player $player, string $selectedPlayer): void
     {
         $selectedPlayer = self::getServer()->getPlayerExact($selectedPlayer);
@@ -37,9 +36,9 @@ class IslandManager
             return;
         }
 
-        IslandData::get($selectedPlayer->getName(), function(?IslandData $islandData) use ($player, $selectedPlayer): void {
+        IslandData::get($selectedPlayer->getName(), function (?IslandData $islandData) use ($player, $selectedPlayer): void {
             if ($islandData === null) {
-            $player->sendMessage(Skyblock::$prefix . API::getMessage("island-visit-no-island"));
+                $player->sendMessage(Skyblock::$prefix . API::getMessage("island-visit-no-island"));
                 return;
             }
             $visitStatus = $islandData->getVisit();
@@ -47,7 +46,9 @@ class IslandManager
                 $player->sendMessage(Skyblock::$prefix . API::getMessage("island-visit-locked"));
                 return;
             }
-            if (!self::getServer()->getWorldManager()->isWorldLoaded($selectedPlayer->getName())) self::getServer()->getWorldManager()->loadWorld($selectedPlayer->getName());
+            if (!self::getServer()->getWorldManager()->isWorldLoaded($selectedPlayer->getName())) {
+                self::getServer()->getWorldManager()->loadWorld($selectedPlayer->getName());
+            }
             $world = self::getServer()->getWorldManager()->getWorldByName($selectedPlayer->getName());
             if (!$world instanceof World) {
                 return;
@@ -62,20 +63,20 @@ class IslandManager
 
     public static function partnerRemove(Player $player, string $selectedPlayer): void
     {
-        IslandData::get($player->getName(), function(?IslandData $playerData) use ($selectedPlayer) {
+        IslandData::get($player->getName(), function (?IslandData $playerData) use ($selectedPlayer) {
             if ($playerData !== null) {
                 $playerData->removePartner($selectedPlayer);
             }
         });
         $selectedPlayerObj = self::getServer()->getPlayerExact($selectedPlayer);
         if ($selectedPlayerObj instanceof Player) {
-            IslandData::get($selectedPlayerObj->getName(), function(?IslandData $selectedPlayerData) use ($player) {
+            IslandData::get($selectedPlayerObj->getName(), function (?IslandData $selectedPlayerData) use ($player) {
                 if ($selectedPlayerData !== null) {
                     $selectedPlayerData->removePartner($player->getName());
                 }
             });
         } else {
-            IslandData::get($selectedPlayer, function(?IslandData $islandData) use ($player) {
+            IslandData::get($selectedPlayer, function (?IslandData $islandData) use ($player) {
                 if ($islandData !== null) {
                     $islandData->removePartner($player->getName());
                 }
@@ -91,12 +92,12 @@ class IslandManager
     {
         $requestPlayerObj = self::getServer()->getPlayerExact($requestPlayer);
         if ($requestPlayerObj instanceof Player) {
-            IslandData::get($requestPlayerObj->getName(), function(?IslandData $requestPlayerData) use ($player, $requestPlayer) {
+            IslandData::get($requestPlayerObj->getName(), function (?IslandData $requestPlayerData) use ($player, $requestPlayer) {
                 if ($requestPlayerData !== null) {
                     $requestPlayerData->addPartner($player->getName());
                 }
             });
-            IslandData::get($player->getName(), function(?IslandData $playerData) use ($requestPlayer) {
+            IslandData::get($player->getName(), function (?IslandData $playerData) use ($requestPlayer) {
                 if ($playerData !== null) {
                     $playerData->addPartner($requestPlayer);
                 }
@@ -116,7 +117,7 @@ class IslandManager
                 $player->sendMessage(Skyblock::$prefix . API::getMessage("island-partner-self"));
                 return;
             }
-            IslandData::get($player->getName(), function(?IslandData $playerData) use ($selectedPlayerObj, $player) {
+            IslandData::get($player->getName(), function (?IslandData $playerData) use ($selectedPlayerObj, $player) {
                 $partners = $playerData ? $playerData->getPartners() : [];
                 if (in_array($selectedPlayerObj->getName(), $partners)) {
                     $player->sendMessage(Skyblock::$prefix . API::getMessage("island-partner-already"));
@@ -132,7 +133,7 @@ class IslandManager
 
     public static function islandUnBanPlayer(Player $player, string $selectedPlayer): void
     {
-        IslandData::get($player->getName(), function(?IslandData $islandData) use ($selectedPlayer) {
+        IslandData::get($player->getName(), function (?IslandData $islandData) use ($selectedPlayer) {
             if ($islandData !== null) {
                 $islandData->removeBanned($selectedPlayer);
             }
@@ -148,7 +149,7 @@ class IslandManager
             if (!$defaultWorld instanceof World) {
                 return;
             }
-            IslandData::get($player->getName(), function(?IslandData $islandData) use ($selectedPlayerObj, $player, $defaultWorld) {
+            IslandData::get($player->getName(), function (?IslandData $islandData) use ($selectedPlayerObj, $player, $defaultWorld) {
                 if ($islandData !== null) {
                     $islandData->addBanned($selectedPlayerObj->getName());
                 }
@@ -184,7 +185,7 @@ class IslandManager
 
     public static function teleportPartnerIsland(Player $player, string $selectedPlayer): void
     {
-        IslandData::get($selectedPlayer, function(?IslandData $islandData) use ($player, $selectedPlayer): void {
+        IslandData::get($selectedPlayer, function (?IslandData $islandData) use ($player, $selectedPlayer): void {
             if ($islandData === null) {
                 $player->sendMessage(Skyblock::$prefix . API::getMessage("island-teleport-deleted"));
                 return;
@@ -192,7 +193,9 @@ class IslandManager
             $settings = $islandData->getSettings();
             $status = $settings['de-active-teleport'] ?? false;
             if ($status) {
-                if (!self::getServer()->getWorldManager()->isWorldLoaded($selectedPlayer)) self::getServer()->getWorldManager()->loadWorld($selectedPlayer);
+                if (!self::getServer()->getWorldManager()->isWorldLoaded($selectedPlayer)) {
+                    self::getServer()->getWorldManager()->loadWorld($selectedPlayer);
+                }
                 $world = self::getServer()->getWorldManager()->getWorldByName($selectedPlayer);
                 if (!$world instanceof World) {
                     return;
@@ -208,7 +211,7 @@ class IslandManager
 
     public static function changePartnerSettings(Player $player, bool $interact, bool $place, bool $break, bool $pickingUp, bool $deActiveTeleport): void
     {
-        IslandData::get($player->getName(), function(?IslandData $islandData) use ($interact, $place, $break, $pickingUp, $deActiveTeleport, $player) {
+        IslandData::get($player->getName(), function (?IslandData $islandData) use ($interact, $place, $break, $pickingUp, $deActiveTeleport, $player) {
             if ($islandData !== null) {
                 $settings = $islandData->getSettings();
                 $settings['interact'] = $interact;
@@ -224,7 +227,9 @@ class IslandManager
 
     public static function teleportToIsland(Player $player): void
     {
-        if (!self::getServer()->getWorldManager()->isWorldLoaded($player->getName())) self::getServer()->getWorldManager()->loadWorld($player->getName());
+        if (!self::getServer()->getWorldManager()->isWorldLoaded($player->getName())) {
+            self::getServer()->getWorldManager()->loadWorld($player->getName());
+        }
         $world = self::getServer()->getWorldManager()->getWorldByName($player->getName());
         if (!$world instanceof World) {
             return;
@@ -246,7 +251,7 @@ class IslandManager
 
     public static function changeIslandVisit(Player $player): void
     {
-        IslandData::get($player->getName(), function(?IslandData $islandData) use ($player): void {
+        IslandData::get($player->getName(), function (?IslandData $islandData) use ($player): void {
             if ($islandData !== null) {
                 if (!$islandData->getVisit()) {
                     $player->sendMessage(Skyblock::$prefix . API::getMessage("island-visit-open"));
@@ -274,7 +279,7 @@ class IslandManager
 
         self::getServer()->getWorldManager()->loadWorld($playerName);
 
-        IslandData::get($player->getName(), function(?IslandData $existingIsland) use ($player, $playerName): void {
+        IslandData::get($player->getName(), function (?IslandData $existingIsland) use ($player, $playerName): void {
             $deleteTime = $existingIsland ? $existingIsland->getSettings()['delete-time'] ?? null : null;
             $partners = $existingIsland ? $existingIsland->getPartners() : [];
             $initialData = [
@@ -308,7 +313,7 @@ class IslandManager
 
     public static function islandRemove(Player $player): void
     {
-        IslandData::get($player->getName(), function(?IslandData $islandData) use ($player): void {
+        IslandData::get($player->getName(), function (?IslandData $islandData) use ($player): void {
             if ($islandData === null) {
                 $player->sendMessage(Skyblock::$prefix . API::getMessage("island-error"));
                 return;
@@ -316,7 +321,7 @@ class IslandManager
             $deleteTime = $islandData->getSettings()['delete-time'] ?? null;
 
             if ($deleteTime === null || time() > (int)$deleteTime) {
-                self::islandDataDelete($player, function() use ($player) {
+                self::islandDataDelete($player, function () use ($player) {
                     $player->sendMessage(Skyblock::$prefix . API::getMessage("island-delete-success"));
                 });
                 return;
@@ -335,14 +340,18 @@ class IslandManager
     {
         $world = self::getServer()->getWorldManager()->getWorldByName($player->getName());
         if (!$world instanceof World) {
-            if ($callback) $callback();
+            if ($callback) {
+                $callback();
+            }
             return;
         }
 
         foreach ($world->getPlayers() as $islandPlayer) {
             $defaultWorld = self::getServer()->getWorldManager()->getWorldByName(API::getHub());
             if (!$defaultWorld instanceof World) {
-                if ($callback) $callback();
+                if ($callback) {
+                    $callback();
+                }
                 return;
             }
 
@@ -350,9 +359,11 @@ class IslandManager
             $islandPlayer->sendMessage(Skyblock::$prefix . API::getMessage("island-delete-notify"));
         }
 
-        IslandData::get($player->getName(), function(?IslandData $islandData) use ($player, $world, $callback): void {
+        IslandData::get($player->getName(), function (?IslandData $islandData) use ($player, $world, $callback): void {
             if ($islandData === null) {
-                if ($callback) $callback();
+                if ($callback) {
+                    $callback();
+                }
                 return;
             }
 
@@ -365,10 +376,12 @@ class IslandManager
                 self::getServer()->getWorldManager()->unloadWorld($world);
                 self::worldDelete($worldName);
                 $islandData->delete();
-                if ($callback) $callback();
+                if ($callback) {
+                    $callback();
+                }
             } else {
                 foreach ($partners as $partner) {
-                    IslandData::get($partner, function(?IslandData $partnerData) use ($player, &$processed, $partnerCount, $world, $islandData, $callback): void {
+                    IslandData::get($partner, function (?IslandData $partnerData) use ($player, &$processed, $partnerCount, $world, $islandData, $callback): void {
                         if ($partnerData !== null) {
                             $partnerData->removePartner($player->getName());
                         }
@@ -378,7 +391,9 @@ class IslandManager
                             self::getServer()->getWorldManager()->unloadWorld($world);
                             self::worldDelete($worldName);
                             $islandData->delete();
-                            if ($callback) $callback();
+                            if ($callback) {
+                                $callback();
+                            }
                         }
                     });
                 }

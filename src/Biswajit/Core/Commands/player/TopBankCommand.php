@@ -37,7 +37,9 @@ class TopBankCommand extends Command
             $count = 0;
             foreach ($players as $name => $bankMoney) {
                 $count++;
-                if ($count > 10) break; // Limit to top 10
+                if ($count > 10) {
+                    break;
+                } // Limit to top 10
                 $message .= "§b{$count}. §f{$name} - §a$" . number_format($bankMoney) . "\n";
             }
             $sender->sendMessage($message);

@@ -114,3 +114,31 @@ UPDATE rank SET data=:data WHERE uuid=:uuid;
 -- # }
 
 -- # }
+
+-- #{ area
+
+-- # { init
+CREATE TABLE IF NOT EXISTS area (
+    uuid TEXT PRIMARY KEY,
+    data TEXT NOT NULL
+);
+-- # }
+
+-- # { load
+-- #   :uuid string
+SELECT data FROM area WHERE uuid=:uuid;
+-- # }
+
+-- # { create
+-- #   :uuid string
+-- #   :data string
+INSERT INTO area (uuid, data) VALUES (:uuid, :data);
+-- # }
+
+-- # { update
+-- #   :uuid string
+-- #   :data string
+UPDATE area SET data=:data WHERE uuid=:uuid;
+-- # }
+
+-- # }

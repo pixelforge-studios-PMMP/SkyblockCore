@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Biswajit\Core\Listeners\Player;
 
@@ -14,13 +14,16 @@ use Biswajit\Core\Utils\Utils;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
 
-class PlayerJoin implements Listener {
-
-    public function onJoin(PlayerJoinEvent $event): void {
+class PlayerJoin implements Listener
+{
+    public function onJoin(PlayerJoinEvent $event): void
+    {
         $player = $event->getPlayer();
         $name = $player->getName();
 
-	    	if(!$player instanceof Player) return;
+        if (!$player instanceof Player) {
+            return;
+        }
 
         $event->setJoinMessage(API::getMessage("Join", ["{player}" => $name]));
 
@@ -32,11 +35,11 @@ class PlayerJoin implements Listener {
         $finalFormat = str_replace(["&", "{player_name}"], ["§", $player->getName()], $format);
         $player->setNameTag($finalFormat);
         RankManager::addPermissionsForPlayer($player);
- 
+
         if (BankManager::getBankMoney($player) > 0) {
-          if(!array_key_exists($player->getName(), BankManager::$interest)) {
-            BankManager::$interest[$player->getName()] =  Skyblock::getInstance()->getScheduler()->scheduleRepeatingTask(new InterestTask(Skyblock::getInstance(), $player), 72000);
-      }
+            if (!array_key_exists($player->getName(), BankManager::$interest)) {
+                BankManager::$interest[$player->getName()] =  Skyblock::getInstance()->getScheduler()->scheduleRepeatingTask(new InterestTask(Skyblock::getInstance(), $player), 72000);
+            }
+        }
     }
-  }
 }

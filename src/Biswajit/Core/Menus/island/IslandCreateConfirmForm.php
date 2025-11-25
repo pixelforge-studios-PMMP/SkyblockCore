@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Biswajit\Core\Menus\island;
 
@@ -19,8 +19,6 @@ class IslandCreateConfirmForm extends ModalForm
             function (Player $player, bool $choice) use ($type): void {
                 switch ($choice) {
                     case true:
-                        $player->sendMessage(Skyblock::$prefix . "bYour island is being created..");
-
                         IslandManager::islandCreate($player, $type);
                         break;
                     case false:

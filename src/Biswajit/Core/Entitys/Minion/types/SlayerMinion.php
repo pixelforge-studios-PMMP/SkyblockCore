@@ -48,13 +48,13 @@ class SlayerMinion extends MinionEntity
 
         $this->setNameTag("");
         $this->setNameTagAlwaysVisible(false);
-        
+
         if ($this->target === null) {
             $this->target = $this->getTargetingEntity();
 
             if ($this->getTargetingEntity() === null) {
-               $this->spawnEntity();
-               return;
+                $this->spawnEntity();
+                return;
             }
 
             return;
@@ -97,7 +97,7 @@ class SlayerMinion extends MinionEntity
         $basePos = $this->getPosition();
 
         $positions = [];
-        $range = 2; 
+        $range = 2;
         for ($x = -$range; $x <= $range; $x++) {
             for ($z = -$range; $z <= $range; $z++) {
                 if ($x === 0 && $z === 0) {

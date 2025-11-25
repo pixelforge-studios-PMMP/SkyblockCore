@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Biswajit\Core\Managers;
@@ -6,9 +7,10 @@ namespace Biswajit\Core\Managers;
 use Biswajit\Core\Tasks\AsynTasks\DiscordWebhookSendTask;
 use pocketmine\Server;
 
-class WebHookManager {
-
-    public static function sendWebhook(string $url, string $title, string $description, string $username, string $color = '00ff00', ?string $thumbnail = null, ?string $footer = null, ?array $fields = null, ?string $avatar = null): void {
+class WebHookManager
+{
+    public static function sendWebhook(string $url, string $title, string $description, string $username, string $color = '00ff00', ?string $thumbnail = null, ?string $footer = null, ?array $fields = null, ?string $avatar = null): void
+    {
         if (!is_string($url) || !str_starts_with($url, "https://")) {
             Server::getInstance()->getLogger()->warning("[WebhookManager] Invalid webhook URL: '$url'");
             return;

@@ -11,15 +11,18 @@ use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\player\chat\LegacyRawChatFormatter;
 
-class PlayerChat implements Listener {
+class PlayerChat implements Listener
+{
+    public function onPlayerChat(PlayerChatEvent $event)
+    {
+        $msg = $event->getMessage();
+        $player = $event->getPlayer();
 
-    public function onPlayerChat(PlayerChatEvent $event) {
-      $msg = $event->getMessage();
-      $player = $event->getPlayer();
-    
-      if(!$player instanceof Player) return;
+        if (!$player instanceof Player) {
+            return;
+        }
 
-      if (!$player->hasPermission("admin.chat")) {
+        if (!$player->hasPermission("admin.chat")) {
             if (strlen($event->getMessage()) >= 100) {
                 $player->sendMessage(" §cYou Can't Type More Than 100 Letters At Once!");
                 $event->cancel();
@@ -50,4 +53,4 @@ class PlayerChat implements Listener {
         $finalMessage = str_replace(["&", "{player_name}", "{msg}"], ["§", $player->getDisplayName(), $chatmessage], $format);
         $event->setFormatter(new LegacyRawChatFormatter($finalMessage));
     }
- }
+}

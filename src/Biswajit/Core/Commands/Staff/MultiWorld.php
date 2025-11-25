@@ -12,15 +12,16 @@ use Biswajit\Core\Skyblock;
 use pocketmine\Server;
 use pocketmine\world\WorldCreationOptions;
 
-
 class MultiWorld extends Command
 {
-    public function __construct() {
-         parent::__construct("mw", "Manage multiple worlds with tab completion", "/mw <subcommand> [args]", ["multiworld"]);
+    public function __construct()
+    {
+        parent::__construct("mw", "Manage multiple worlds with tab completion", "/mw <subcommand> [args]", ["multiworld"]);
         $this->setPermission("staff.mw.cmd");
     }
 
-    public function execute(CommandSender $sender, string $commandLabel, array $args): bool {
+    public function execute(CommandSender $sender, string $commandLabel, array $args): bool
+    {
         if (!$this->testPermission($sender)) {
             $sender->sendMessage(Skyblock::$prefix . API::getMessage("multiworld.no-permission"));
             return false;
@@ -60,7 +61,8 @@ class MultiWorld extends Command
         }
     }
 
-    private function handleTeleport(CommandSender $sender, array $args): bool {
+    private function handleTeleport(CommandSender $sender, array $args): bool
+    {
         if (count($args) < 1) {
             $sender->sendMessage(Skyblock::$prefix . API::getMessage("multiworld.tp-usage"));
             return false;
@@ -114,23 +116,25 @@ class MultiWorld extends Command
         return true;
     }
 
-    private function handleList(CommandSender $sender): bool {
+    private function handleList(CommandSender $sender): bool
+    {
         $worldManager = Server::getInstance()->getWorldManager();
         $worlds = $worldManager->getWorlds();
-        
+
         $sender->sendMessage(Skyblock::$prefix . API::getMessage("multiworld.list-title"));
-        
+
         foreach ($worlds as $world) {
             $name = $world->getFolderName();
             $loaded = $worldManager->isWorldLoaded($name) ? API::getMessage("multiworld.list-loaded") : API::getMessage("multiworld.list-unloaded");
             $players = count($world->getPlayers());
             $sender->sendMessage(str_replace(["{WORLD}", "{STATUS}", "{PLAYERS}"], [$name, $loaded, $players], API::getMessage("multiworld.list-format")));
         }
-        
+
         return true;
     }
 
-    private function handleLoad(CommandSender $sender, array $args): bool {
+    private function handleLoad(CommandSender $sender, array $args): bool
+    {
         if (count($args) < 1) {
             $sender->sendMessage(Skyblock::$prefix . API::getMessage("multiworld.load-usage"));
             return false;
@@ -158,7 +162,8 @@ class MultiWorld extends Command
         }
     }
 
-    private function handleUnload(CommandSender $sender, array $args): bool {
+    private function handleUnload(CommandSender $sender, array $args): bool
+    {
         if (count($args) < 1) {
             $sender->sendMessage(Skyblock::$prefix . API::getMessage("multiworld.unload-usage"));
             return false;
@@ -188,7 +193,8 @@ class MultiWorld extends Command
         return true;
     }
 
-    private function handleCreate(CommandSender $sender, array $args): bool {
+    private function handleCreate(CommandSender $sender, array $args): bool
+    {
         if (count($args) < 1) {
             $sender->sendMessage(Skyblock::$prefix . API::getMessage("multiworld.create-usage"));
             $sender->sendMessage(Skyblock::$prefix . API::getMessage("multiworld.create-types"));
@@ -228,7 +234,8 @@ class MultiWorld extends Command
         }
     }
 
-    private function handleDelete(CommandSender $sender, array $args): bool {
+    private function handleDelete(CommandSender $sender, array $args): bool
+    {
         if (count($args) < 1) {
             $sender->sendMessage(Skyblock::$prefix . API::getMessage("multiworld.delete-usage"));
             return false;
@@ -262,14 +269,15 @@ class MultiWorld extends Command
         }
     }
 
-    private function handleWorlds(CommandSender $sender): bool {
+    private function handleWorlds(CommandSender $sender): bool
+    {
         $worldManager = Server::getInstance()->getWorldManager();
         $loadedWorlds = $worldManager->getWorlds();
-        
+
         // Get all world directories
         $worldsPath = Server::getInstance()->getDataPath() . "worlds";
         $allWorldNames = [];
-        
+
         if (is_dir($worldsPath)) {
             $directories = scandir($worldsPath);
             foreach ($directories as $directory) {
@@ -278,47 +286,49 @@ class MultiWorld extends Command
                 }
             }
         }
-        
+
         $sender->sendMessage(Skyblock::$prefix . API::getMessage("multiworld.worlds-title"));
-        
+
         if (empty($allWorldNames)) {
             $sender->sendMessage(Skyblock::$prefix . API::getMessage("multiworld.worlds-no-worlds"));
             return true;
         }
-        
+
         foreach ($allWorldNames as $worldName) {
             $loaded = $worldManager->isWorldLoaded($worldName) ? API::getMessage("multiworld.worlds-loaded") : API::getMessage("multiworld.worlds-unloaded");
             $world = $worldManager->getWorldByName($worldName);
             $players = $world !== null ? count($world->getPlayers()) : 0;
             $sender->sendMessage(str_replace(["{WORLD}", "{STATUS}", "{PLAYERS}"], [$worldName, $loaded, $players], API::getMessage("multiworld.worlds-format")));
         }
-        
+
         return true;
     }
 
-    private function handlePlayers(CommandSender $sender): bool {
+    private function handlePlayers(CommandSender $sender): bool
+    {
         $server = Server::getInstance();
         $players = $server->getOnlinePlayers();
-        
+
         $sender->sendMessage(Skyblock::$prefix . API::getMessage("multiworld.players-title"));
-        
+
         if (empty($players)) {
             $sender->sendMessage(Skyblock::$prefix . API::getMessage("multiworld.players-no-players"));
             return true;
         }
-        
+
         foreach ($players as $player) {
             $world = $player->getWorld()->getFolderName();
             $sender->sendMessage(str_replace(["{PLAYER}", "{WORLD}"], [$player->getName(), $world], API::getMessage("multiworld.players-format")));
         }
-        
+
         return true;
     }
 
-    private function handleInfo(CommandSender $sender): bool {
+    private function handleInfo(CommandSender $sender): bool
+    {
         $server = Server::getInstance();
         $worldManager = $server->getWorldManager();
-        
+
         $sender->sendMessage(Skyblock::$prefix . API::getMessage("multiworld.info-title"));
         $sender->sendMessage(str_replace("{COUNT}", (string)count($worldManager->getWorlds()), API::getMessage("multiworld.info-total-worlds")));
         $sender->sendMessage(str_replace("{COUNT}", (string)count($server->getOnlinePlayers()), API::getMessage("multiworld.info-online-players")));
@@ -331,11 +341,12 @@ class MultiWorld extends Command
         $sender->sendMessage(Skyblock::$prefix . API::getMessage("multiworld.help-delete"));
         $sender->sendMessage(Skyblock::$prefix . API::getMessage("multiworld.help-worlds"));
         $sender->sendMessage(Skyblock::$prefix . API::getMessage("multiworld.help-players"));
-        
+
         return true;
     }
 
-    private function deleteDirectory(string $dir): bool {
+    private function deleteDirectory(string $dir): bool
+    {
         if (!is_dir($dir)) {
             return false;
         }
@@ -352,7 +363,8 @@ class MultiWorld extends Command
         return rmdir($dir);
     }
 
-    private function sendHelp(CommandSender $sender): void {
+    private function sendHelp(CommandSender $sender): void
+    {
         $sender->sendMessage(Skyblock::$prefix . API::getMessage("multiworld.help-title"));
         $sender->sendMessage(Skyblock::$prefix . API::getMessage("multiworld.help-tp"));
         $sender->sendMessage(Skyblock::$prefix . API::getMessage("multiworld.help-list"));

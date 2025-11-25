@@ -13,13 +13,14 @@ trait Database
 
     public function initDatabase(): void
     {
-       $db = libasynql::create($this, $this->getConfig()->get('database'), ['mysql' => 'mysql.sql', 'sqlite' => 'sqlite.sql']);
-       $db->executeGeneric('skyblockIsland.init');
-       $db->executeGeneric('skyblock.init');
-       $db->executeGeneric('economy.init');
-       $db->executeGeneric('rank.init');
-       $db->waitAll();
-       $this->dataBase = $db;
+        $db = libasynql::create($this, $this->getConfig()->get('database'), ['mysql' => 'mysql.sql', 'sqlite' => 'sqlite.sql']);
+        $db->executeGeneric('skyblockIsland.init');
+        $db->executeGeneric('skyblock.init');
+        $db->executeGeneric('economy.init');
+        $db->executeGeneric('rank.init');
+        $db->executeGeneric('area.init');
+        $db->waitAll();
+        $this->dataBase = $db;
     }
 
     /**

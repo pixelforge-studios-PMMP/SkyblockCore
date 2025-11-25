@@ -8,7 +8,6 @@ use pocketmine\scheduler\Task;
 
 class BroadcastTask extends Task
 {
-
     /** @var Skyblock */
     private Skyblock $source;
 

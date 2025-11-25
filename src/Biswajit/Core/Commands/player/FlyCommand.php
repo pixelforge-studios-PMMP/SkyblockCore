@@ -11,7 +11,6 @@ use pocketmine\utils\TextFormat;
 
 class FlyCommand extends Command
 {
-
     public function __construct()
     {
         parent::__construct("fly", "§eFly");
@@ -33,18 +32,18 @@ class FlyCommand extends Command
                 return false;
             }
 
-            if($args[0] === "off") {
-               $sender->setFlying(false);
-               $sender->sendMessage("⩕ §eYour Fly Disabled Now!");
-               return true;
+            if ($args[0] === "off") {
+                $sender->setFlying(false);
+                $sender->sendMessage("⩕ §eYour Fly Disabled Now!");
+                return true;
             }
-            
-            if($args[0] === "on") {
-               $sender->setFlying(true);
-               $sender->sendMessage("⩋ §eYour Fly Enabled Now!");
-               return true;
+
+            if ($args[0] === "on") {
+                $sender->setFlying(true);
+                $sender->sendMessage("⩋ §eYour Fly Enabled Now!");
+                return true;
             }
         }
-    return false;
-   }
+        return false;
+    }
 }

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Biswajit\Core\Menus\island;
 
@@ -32,7 +32,7 @@ class IslandKickPlayerForm extends MenuForm
                 if (!$menuOption instanceof MenuOption) {
                     return;
                 }
-                
+
                 $selectedPlayer = $menuOption->getText();
                 IslandManager::islandKickPlayer($player, $selectedPlayer);
             }

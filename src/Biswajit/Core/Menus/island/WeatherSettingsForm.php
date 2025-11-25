@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Biswajit\Core\Menus\island;
 
@@ -29,29 +29,29 @@ class WeatherSettingsForm extends MenuForm
                     switch ($option) {
                         case 0:
                             if (isset($player::$weathers)) {
-                            $player->sendMessage(Skyblock::$prefix . "cYou cannot change it until the server is restarted!");
-                            return;
-                        }
-                        $player::$weathers = "rain";
-                        $packet = new LevelEventPacket();
-                        $packet->eventId = LevelEvent::START_RAIN;
-                        $packet->position = null;
-                        $packet->eventData = 10000;
-                        $player->getNetworkSession()->sendDataPacket($packet);
-                        $player->sendMessage(Skyblock::$prefix . "bWeather set to rainy!");
+                                $player->sendMessage(Skyblock::$prefix . "cYou cannot change it until the server is restarted!");
+                                return;
+                            }
+                            $player::$weathers = "rain";
+                            $packet = new LevelEventPacket();
+                            $packet->eventId = LevelEvent::START_RAIN;
+                            $packet->position = null;
+                            $packet->eventData = 10000;
+                            $player->getNetworkSession()->sendDataPacket($packet);
+                            $player->sendMessage(Skyblock::$prefix . "bWeather set to rainy!");
                             break;
                         case 1:
                             if (isset($player::$weathers)) {
-                            $player->sendMessage(Skyblock::$prefix . "cYou cannot change it until the server is restarted!");
-                            return;
-                        }
-                        $player::$weathers = "thunder";
-                        $packet = new LevelEventPacket();
-                        $packet->eventId = LevelEvent::START_THUNDER;
-                        $packet->position = null;
-                        $packet->eventData = 10000;
-                        $player->getNetworkSession()->sendDataPacket($packet);
-                        $player->sendMessage(Skyblock::$prefix . "bWeather set to lightning!");
+                                $player->sendMessage(Skyblock::$prefix . "cYou cannot change it until the server is restarted!");
+                                return;
+                            }
+                            $player::$weathers = "thunder";
+                            $packet = new LevelEventPacket();
+                            $packet->eventId = LevelEvent::START_THUNDER;
+                            $packet->position = null;
+                            $packet->eventData = 10000;
+                            $player->getNetworkSession()->sendDataPacket($packet);
+                            $player->sendMessage(Skyblock::$prefix . "bWeather set to lightning!");
                             break;
                         case 2:
                             $player->getWorld()->setTime(13000);

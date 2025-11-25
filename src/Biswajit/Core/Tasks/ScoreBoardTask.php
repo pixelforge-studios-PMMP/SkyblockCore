@@ -15,22 +15,23 @@ class ScoreBoardTask extends Task
     private string $timezone = "Asia/Kolkata";
     private string $serverIp;
     private array $scoreboardTitles;
-    
-    public function __construct() {
+
+    public function __construct()
+    {
         $plugin = Skyblock::getInstance();
         $this->serverIp = $plugin->getConfig()->get("SERVER-IP");
         $this->scoreboardTitles = $plugin->getConfig()->get("SCOREBOARD-TITLES");
         date_default_timezone_set($this->timezone);
     }
-    
+
     public function onRun(): void
     {
-        foreach(Server::getInstance()->getOnlinePlayers() as $player) {
+        foreach (Server::getInstance()->getOnlinePlayers() as $player) {
             $this->updateScoreboard($player);
         }
     }
-    
-    private function updateScoreboard(Player $player): void 
+
+    private function updateScoreboard(Player $player): void
     {
         $data = [
             'playername' => $player->getName(),
@@ -40,14 +41,14 @@ class ScoreBoardTask extends Task
             'time' => date("h:i"),
             'area' => API::getPlayerWorld($player)
         ];
-        
+
         $oldTitle = ScoreBoardManager::getScoreboard();
         $newTitle = $this->scoreboardTitles[$oldTitle];
         ScoreBoardManager::setScoreboard($newTitle);
-        
+
         ScoreBoardManager::removeScoreboard($player, "ScoreBoard");
         ScoreBoardManager::createScoreboard($player, "    §r  §l{$newTitle}    ", "ScoreBoard");
-        
+
         $lines = [
             "§r",
             "§7Mid Summer {$data['date']}th",
@@ -62,8 +63,8 @@ class ScoreBoardTask extends Task
             "§9          §r",
             "§r§3{$this->serverIp} "
         ];
-        
-        foreach($lines as $index => $line) {
+
+        foreach ($lines as $index => $line) {
             ScoreBoardManager::setScoreboardEntry($player, $index, $line, "ScoreBoard");
         }
     }

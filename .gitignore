@@ -3,6 +3,10 @@
 
 /wiki/
 
+.php-cs-fixer.cache
+
+.idea
+
 # Composer PHAR
 composer.phar
 

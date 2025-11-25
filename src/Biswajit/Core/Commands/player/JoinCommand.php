@@ -20,7 +20,7 @@ class JoinCommand extends Command
     public function execute(CommandSender $sender, string $commandLabel, array $args): mixed
     {
         if ($sender instanceof Player) {
-            IslandData::get($sender->getName(), function(?IslandData $islandData) use ($sender): void {
+            IslandData::get($sender->getName(), function (?IslandData $islandData) use ($sender): void {
                 if ($islandData !== null) {
                     IslandManager::teleportToIsland($sender);
                 } else {

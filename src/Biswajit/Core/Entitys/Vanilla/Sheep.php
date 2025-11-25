@@ -30,7 +30,7 @@ class Sheep extends VanillaEntity
     public function onTick(): void
     {
         try {
-            if(++$this->lastRandomTime >= self::RANDOM_TIME){
+            if (++$this->lastRandomTime >= self::RANDOM_TIME) {
                 $this->lastRandomTime = 0;
                 $this->pathfinder->resetPath();
                 $this->wanderRandomly();

@@ -10,7 +10,6 @@ use pocketmine\command\CommandSender;
 
 class EmojisCommand extends Command
 {
-
     public function __construct()
     {
         parent::__construct("emojis", "§eopen emojis form.");
@@ -22,8 +21,8 @@ class EmojisCommand extends Command
     {
         if ($sender instanceof Player) {
 
-          $sender->sendForm(new EmojisForm());
+            $sender->sendForm(new EmojisForm());
         }
-    return false;
-   }
+        return false;
+    }
 }

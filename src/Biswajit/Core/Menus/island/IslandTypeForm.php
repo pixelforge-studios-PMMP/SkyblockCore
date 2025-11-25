@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Biswajit\Core\Menus\island;
 
@@ -12,7 +12,6 @@ use dktapps\pmforms\MenuOption;
 
 class IslandTypeForm extends MenuForm
 {
-
     public function __construct()
     {
         parent::__construct(

@@ -9,13 +9,14 @@ use Biswajit\Core\Skyblock;
 use Biswajit\Core\Utils\Utils;
 use pocketmine\scheduler\ClosureTask;
 
-class TradeManager {
-
+class TradeManager
+{
     use ManagerBase;
 
     private static array $trades = [];
 
-    public static function addTradeRequest(Player $player, string $victimName): void {
+    public static function addTradeRequest(Player $player, string $victimName): void
+    {
         $playerName = $player->getName();
 
         if ($playerName === $victimName || self::hasTradeRequest($player, $victimName)) {
@@ -39,17 +40,20 @@ class TradeManager {
         ), 20 * 60);
     }
 
-    public static function hasTradeRequest(Player $player, string $victimName): bool {
+    public static function hasTradeRequest(Player $player, string $victimName): bool
+    {
         $playerName = $player->getName();
         return isset(self::$trades[$playerName]) && in_array($victimName, self::$trades[$playerName], true);
     }
 
-    public static function getTradeRequests(Player $player): array {
+    public static function getTradeRequests(Player $player): array
+    {
         $playerName = $player->getName();
         return self::$trades[$playerName] ?? [];
     }
 
-    public static function removeTradeRequest(Player $player, string $victimName): void {
+    public static function removeTradeRequest(Player $player, string $victimName): void
+    {
         $playerName = $player->getName();
 
         if (!self::hasTradeRequest($player, $victimName)) {

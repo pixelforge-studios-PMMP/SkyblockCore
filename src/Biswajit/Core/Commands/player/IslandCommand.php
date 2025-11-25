@@ -20,7 +20,7 @@ class IslandCommand extends Command
     public function execute(CommandSender $sender, string $commandLabel, array $args): mixed
     {
         if ($sender instanceof Player) {
-            IslandData::get($sender->getName(), function(?IslandData $islandData) use ($sender): void {
+            IslandData::get($sender->getName(), function (?IslandData $islandData) use ($sender): void {
                 if ($islandData !== null) {
                     $sender->sendForm(new IslandOptionsForm($sender));
                     return;

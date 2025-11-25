@@ -35,6 +35,10 @@ HUB: Hub
 PREFIX: "§l§6SKYBLOCK§r §l§a»§r " 
 SERVER-MOTD: §eYour Motd
 
+# This sends all crash reports and startup logs to PixelForgeStudio!
+# This does not create any security issues — it is only used to improve the plugin.
+LOG-TO-PIXELFORGESTUDO: true
+
 SERVER-NAME: §eYour Server
 VOTE-WEBSITE: §ehttps:://yourvotelink.com
 DISCORD-LINK: §ehttps:://discord.gg/yourdiscord

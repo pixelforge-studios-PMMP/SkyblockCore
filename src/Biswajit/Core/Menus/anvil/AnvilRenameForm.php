@@ -14,7 +14,6 @@ use pocketmine\block\BlockTypeIds;
 
 class AnvilRenameForm extends CustomForm
 {
-
     public function __construct(Player $player)
     {
         $mymoney = EconomyManager::getMoney($player);

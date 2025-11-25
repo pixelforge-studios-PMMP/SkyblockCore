@@ -16,13 +16,13 @@ use Throwable;
 class Zombie extends VanillaEntity
 {
     private const SEARCH_RADIUS = 8.0;
-   
+
     private const MIN_Y = 1;
     private const ATTACK_RANGE = 1.5;
     private const ATTACK_RANGE_SQ = self::ATTACK_RANGE * self::ATTACK_RANGE;
     private const ATTACK_COOLDOWN = 2.0;
 
-    private const RANDOM_TIME = 120; 
+    private const RANDOM_TIME = 120;
     private int $lastRandomTime = 0;
 
     private float $lastAttackTime = 0.0;
@@ -51,7 +51,7 @@ class Zombie extends VanillaEntity
                 if (!empty($players)) {
                     $this->setTargetEntity($players[array_rand($players)]);
                 } else {
-                    if(++$this->lastRandomTime >= self::RANDOM_TIME){
+                    if (++$this->lastRandomTime >= self::RANDOM_TIME) {
                         $this->lastRandomTime = 0;
                         $this->pathfinder->resetPath();
                         $this->wanderRandomly();
@@ -64,14 +64,14 @@ class Zombie extends VanillaEntity
                     $this->lookAt($player->getPosition()->add(0, 1, 0));
                     $currentPath = $this->pathfinder->getCurrentPath();
                     if ($currentPath === null || $currentPath->isDone() || $currentPath->getTarget()->distanceSquared($player->getPosition()) > 1.0) {
-                        $this->pathfinder->findPathAsync($player->getPosition(), function($path) {
+                        $this->pathfinder->findPathAsync($player->getPosition(), function ($path) {
                             // Path found callback
                         });
                     }
                     $this->attackPlayer($player);
                 } else {
                     $this->setTargetEntity(null);
-                if(++$this->lastRandomTime >= self::RANDOM_TIME){
+                    if (++$this->lastRandomTime >= self::RANDOM_TIME) {
                         $this->lastRandomTime = 0;
                         $this->pathfinder->resetPath();
                         $this->wanderRandomly();
@@ -117,8 +117,12 @@ class Zombie extends VanillaEntity
         $distSq = $dx * $dx + $dz * $dz;
 
         if ($distSq < self::ATTACK_RANGE_SQ) {
-            if(!$player->isSurvival()) $this->setTargetEntity(null);
-            if(is_null($this->getTargetEntity())) return;
+            if (!$player->isSurvival()) {
+                $this->setTargetEntity(null);
+            }
+            if (is_null($this->getTargetEntity())) {
+                return;
+            }
 
             $currentTime = microtime(true);
             if ($currentTime - $this->lastAttackTime >= self::ATTACK_COOLDOWN) {
@@ -129,7 +133,8 @@ class Zombie extends VanillaEntity
         }
     }
 
-    public function getAttackDamage(): int {
+    public function getAttackDamage(): int
+    {
         return 10;
     }
 

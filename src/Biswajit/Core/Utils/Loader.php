@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Biswajit\Core\Utils;
 
@@ -62,19 +62,19 @@ use pocketmine\entity\Human;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\world\World;
 
-class Loader {
-
-  public static function initialize(): void
+class Loader
+{
+    public static function initialize(): void
     {
         self::loadListeners();
         self::loadCommands();
-		self::loadEntitys();
+        self::loadEntitys();
         self::loadTasks();
         ItemLoader::initialize();
         BlockLoader::initialize();
     }
 
-  public static function loadListeners(): void
+    public static function loadListeners(): void
     {
         $listeners = [
              new PlayerJoin(),
@@ -88,21 +88,21 @@ class Loader {
              new EntityRegainHealth(),
              new PlayerExhaust(),
              new QueryRegenerate(),
-			 new PlayerInteract(),
+             new PlayerInteract(),
              new EntityAttackEvent(),
              new PlayerChat(),
              new EntityTeleport()
         ];
 
-        foreach ($listeners as $event){
-           Skyblock::getInstance()->getServer()->getPluginManager()->registerEvents($event, Skyblock::getInstance());
+        foreach ($listeners as $event) {
+            Skyblock::getInstance()->getServer()->getPluginManager()->registerEvents($event, Skyblock::getInstance());
         }
 
         $count = count($listeners);
         Skyblock::getInstance()->getLogger()->info("§c{$count}§f Listeners register !");
     }
 
-  public static function loadCommands(): void
+    public static function loadCommands(): void
     {
         $commands = [
             new IslandCommand(),
@@ -123,7 +123,7 @@ class Loader {
             new EmojisCommand()
         ];
 
-        foreach($commands as $cmd){
+        foreach ($commands as $cmd) {
             Skyblock::getInstance()->getServer()->getCommandMap()->register("skyblock", $cmd);
         }
 
@@ -131,60 +131,60 @@ class Loader {
         Skyblock::getInstance()->getLogger()->info("§c{$count}§f command register !");
     }
 
-	public static function loadEntitys(): void
-	{
+    public static function loadEntitys(): void
+    {
 
-		EntityFactory::getInstance()->register(MinerMinion::class, function(World $world, CompoundTag $nbt): MinerMinion{
-			return new MinerMinion(EntityDataHelper::parseLocation($nbt, $world), Human::parseSkinNBT($nbt), $nbt);
-		}, ["entity:MinerMinion", 'MinerMinion']);
+        EntityFactory::getInstance()->register(MinerMinion::class, function (World $world, CompoundTag $nbt): MinerMinion {
+            return new MinerMinion(EntityDataHelper::parseLocation($nbt, $world), Human::parseSkinNBT($nbt), $nbt);
+        }, ["entity:MinerMinion", 'MinerMinion']);
 
-        EntityFactory::getInstance()->register(FarmerMinion::class, function(World $world, CompoundTag $nbt): FarmerMinion{
-			return new FarmerMinion(EntityDataHelper::parseLocation($nbt, $world), Human::parseSkinNBT($nbt), $nbt);
-		}, ["entity:FarmerMinion", 'FarmerMinion']);
+        EntityFactory::getInstance()->register(FarmerMinion::class, function (World $world, CompoundTag $nbt): FarmerMinion {
+            return new FarmerMinion(EntityDataHelper::parseLocation($nbt, $world), Human::parseSkinNBT($nbt), $nbt);
+        }, ["entity:FarmerMinion", 'FarmerMinion']);
 
-        EntityFactory::getInstance()->register(ForagingMinion::class, function(World $world, CompoundTag $nbt): ForagingMinion{
-			return new ForagingMinion(EntityDataHelper::parseLocation($nbt, $world), Human::parseSkinNBT($nbt), $nbt);
-		}, ["entity:ForagingMinion", 'ForagingMinion']);
+        EntityFactory::getInstance()->register(ForagingMinion::class, function (World $world, CompoundTag $nbt): ForagingMinion {
+            return new ForagingMinion(EntityDataHelper::parseLocation($nbt, $world), Human::parseSkinNBT($nbt), $nbt);
+        }, ["entity:ForagingMinion", 'ForagingMinion']);
 
-        EntityFactory::getInstance()->register(SlayerMinion::class, function(World $world, CompoundTag $nbt): SlayerMinion{
-			return new SlayerMinion(EntityDataHelper::parseLocation($nbt, $world), Human::parseSkinNBT($nbt), $nbt);
-		}, ["entity:SlayerMinion", 'SlayerMinion']);
+        EntityFactory::getInstance()->register(SlayerMinion::class, function (World $world, CompoundTag $nbt): SlayerMinion {
+            return new SlayerMinion(EntityDataHelper::parseLocation($nbt, $world), Human::parseSkinNBT($nbt), $nbt);
+        }, ["entity:SlayerMinion", 'SlayerMinion']);
 
-        EntityFactory::getInstance()->register(Zombie::class, function(World $world, CompoundTag $nbt): Zombie{
-			return new Zombie(EntityDataHelper::parseLocation($nbt, $world), $nbt);
-		}, ["entity:Zombie", 'Zombie']);
+        EntityFactory::getInstance()->register(Zombie::class, function (World $world, CompoundTag $nbt): Zombie {
+            return new Zombie(EntityDataHelper::parseLocation($nbt, $world), $nbt);
+        }, ["entity:Zombie", 'Zombie']);
 
-        EntityFactory::getInstance()->register(Skeleton::class, function(World $world, CompoundTag $nbt): Skeleton{
-			return new Skeleton(EntityDataHelper::parseLocation($nbt, $world), $nbt);
-		}, ["entity:Skeleton", 'Skeleton']);
+        EntityFactory::getInstance()->register(Skeleton::class, function (World $world, CompoundTag $nbt): Skeleton {
+            return new Skeleton(EntityDataHelper::parseLocation($nbt, $world), $nbt);
+        }, ["entity:Skeleton", 'Skeleton']);
 
-        EntityFactory::getInstance()->register(Creeper::class, function(World $world, CompoundTag $nbt): Creeper{
-			return new Creeper(EntityDataHelper::parseLocation($nbt, $world), $nbt);
-		}, ["entity:Creeper", 'Creeper']);
+        EntityFactory::getInstance()->register(Creeper::class, function (World $world, CompoundTag $nbt): Creeper {
+            return new Creeper(EntityDataHelper::parseLocation($nbt, $world), $nbt);
+        }, ["entity:Creeper", 'Creeper']);
 
-        EntityFactory::getInstance()->register(Spider::class, function(World $world, CompoundTag $nbt): Spider{
-			return new Spider(EntityDataHelper::parseLocation($nbt, $world), $nbt);
-		}, ["entity:Spider", 'Spider']);
+        EntityFactory::getInstance()->register(Spider::class, function (World $world, CompoundTag $nbt): Spider {
+            return new Spider(EntityDataHelper::parseLocation($nbt, $world), $nbt);
+        }, ["entity:Spider", 'Spider']);
 
-        EntityFactory::getInstance()->register(Pig::class, function(World $world, CompoundTag $nbt): Pig{
-			return new Pig(EntityDataHelper::parseLocation($nbt, $world), $nbt);
-		}, ["entity:Pig", 'Pig']);
+        EntityFactory::getInstance()->register(Pig::class, function (World $world, CompoundTag $nbt): Pig {
+            return new Pig(EntityDataHelper::parseLocation($nbt, $world), $nbt);
+        }, ["entity:Pig", 'Pig']);
 
-        EntityFactory::getInstance()->register(Cow::class, function(World $world, CompoundTag $nbt): Cow{
-			return new Cow(EntityDataHelper::parseLocation($nbt, $world), $nbt);
-		}, ["entity:Cow", 'Cow']);
+        EntityFactory::getInstance()->register(Cow::class, function (World $world, CompoundTag $nbt): Cow {
+            return new Cow(EntityDataHelper::parseLocation($nbt, $world), $nbt);
+        }, ["entity:Cow", 'Cow']);
 
-        EntityFactory::getInstance()->register(Sheep::class, function(World $world, CompoundTag $nbt): Sheep{
-			return new Sheep(EntityDataHelper::parseLocation($nbt, $world), $nbt);
-		}, ["entity:Sheep", 'Sheep']);
+        EntityFactory::getInstance()->register(Sheep::class, function (World $world, CompoundTag $nbt): Sheep {
+            return new Sheep(EntityDataHelper::parseLocation($nbt, $world), $nbt);
+        }, ["entity:Sheep", 'Sheep']);
 
-        EntityFactory::getInstance()->register(Chicken::class, function(World $world, CompoundTag $nbt): Chicken{
-			return new Chicken(EntityDataHelper::parseLocation($nbt, $world), $nbt);
-		}, ["entity:Chicken", 'Chicken']);
+        EntityFactory::getInstance()->register(Chicken::class, function (World $world, CompoundTag $nbt): Chicken {
+            return new Chicken(EntityDataHelper::parseLocation($nbt, $world), $nbt);
+        }, ["entity:Chicken", 'Chicken']);
 
-	}
+    }
 
-  public static function loadTasks(): void
+    public static function loadTasks(): void
     {
         Skyblock::getInstance()->getScheduler()->scheduleRepeatingTask(new EntitySpawnerTask(), 20 * 60);
         Skyblock::getInstance()->getScheduler()->scheduleRepeatingTask(new ActionbarTask(), 10);
@@ -194,6 +194,6 @@ class Loader {
         Skyblock::getInstance()->getScheduler()->scheduleRepeatingTask(new ScoreBoardTask(), 20);
         Skyblock::getInstance()->getScheduler()->scheduleRepeatingTask(new RankTask(Skyblock::getInstance()), 20);
         Skyblock::getInstance()->getScheduler()->scheduleRepeatingTask(new BroadcastTask(Skyblock::getInstance()), 1200);
-     }
+    }
 
 }

@@ -44,12 +44,12 @@ class SkyblockMenu extends MenuForm
         ], function (PlayerPlayer $sender, int $selected): void {
             switch ($selected) {
                 case 0:
-                    IslandData::get($sender->getName(), function(?IslandData $islandData) use ($sender): void {
-                if ($islandData !== null) {
-                    $sender->sendForm(new IslandOptionsForm($sender));
-                    return;
-                       }
-                    $sender->sendForm(new NoIslandForm());
+                    IslandData::get($sender->getName(), function (?IslandData $islandData) use ($sender): void {
+                        if ($islandData !== null) {
+                            $sender->sendForm(new IslandOptionsForm($sender));
+                            return;
+                        }
+                        $sender->sendForm(new NoIslandForm());
                     });
                     break;
                 case 1:
@@ -59,13 +59,13 @@ class SkyblockMenu extends MenuForm
                     //todo
                     break;
                 case 3:
-                     $defaultWorld = Server::getInstance()->getWorldManager()->getWorldByName(API::getHub());
-                      if (!$defaultWorld instanceof World) {
-                          return;
+                    $defaultWorld = Server::getInstance()->getWorldManager()->getWorldByName(API::getHub());
+                    if (!$defaultWorld instanceof World) {
+                        return;
                     }
 
-                     $sender->teleport($defaultWorld->getSafeSpawn());
-                     $sender->sendTitle("§6Welcome To Hub", "" . Utils::getServerName());
+                    $sender->teleport($defaultWorld->getSafeSpawn());
+                    $sender->sendTitle("§6Welcome To Hub", "" . Utils::getServerName());
                     break;
                 case 4:
                     $sender->sendForm(new TradeForm());

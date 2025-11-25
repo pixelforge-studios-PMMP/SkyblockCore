@@ -32,17 +32,19 @@ class IslandListener implements Listener
     {
         $player = $event->getPlayer();
 
-        if (!$player instanceof Player) return;
-        
-        IslandData::get($player->getName(), function(?IslandData $playerData) use ($player) {
-           if (is_null($playerData)) {
-             $defaultWorld = Server::getInstance()->getWorldManager()->getWorldByName(API::getHub());
-             if ($defaultWorld instanceof World) {
-              $player->teleport($defaultWorld->getSafeSpawn());
-              }
-             }else{
-            IslandManager::teleportToIsland($player);
-           }
+        if (!$player instanceof Player) {
+            return;
+        }
+
+        IslandData::get($player->getName(), function (?IslandData $playerData) use ($player) {
+            if (is_null($playerData)) {
+                $defaultWorld = Server::getInstance()->getWorldManager()->getWorldByName(API::getHub());
+                if ($defaultWorld instanceof World) {
+                    $player->teleport($defaultWorld->getSafeSpawn());
+                }
+            } else {
+                IslandManager::teleportToIsland($player);
+            }
         });
     }
 
@@ -67,8 +69,8 @@ class IslandListener implements Listener
         }
     }
 
-    /** 
-     * @priority LOWEST 
+    /**
+     * @priority LOWEST
      * @handleCancelled
      */
     public function onInteract(PlayerInteractEvent $event): void
@@ -76,7 +78,9 @@ class IslandListener implements Listener
         $player = $event->getPlayer();
         $level = $player->getWorld()->getFolderName();
 
-        if($level === API::getHub()) return;
+        if ($level === API::getHub()) {
+            return;
+        }
 
         $event->cancel();
 
@@ -115,7 +119,9 @@ class IslandListener implements Listener
         $level = $player->getWorld()->getFolderName();
         $islandData = IslandData::getSync($level);
 
-        if($level === API::getHub()) return;
+        if ($level === API::getHub()) {
+            return;
+        }
 
         $event->cancel();
 
@@ -153,7 +159,9 @@ class IslandListener implements Listener
         $level = $player->getWorld()->getFolderName();
         $islandData = IslandData::getSync($level);
 
-        if($level === API::getHub()) return;
+        if ($level === API::getHub()) {
+            return;
+        }
 
         $event->cancel();
 
@@ -222,7 +230,9 @@ class IslandListener implements Listener
             $levelName = $level->getFolderName();
             $islandData = IslandData::getSync($levelName);
 
-            if($level === API::getHub()) return;
+            if ($level === API::getHub()) {
+                return;
+            }
 
             if ($islandData !== null) {
                 if ($levelName === $player->getName()) {
@@ -255,7 +265,9 @@ class IslandListener implements Listener
         $player = $event->getPlayer();
         $level = $player->getWorld()->getFolderName();
 
-        if($level === API::getHub()) return;
+        if ($level === API::getHub()) {
+            return;
+        }
 
         $islandData = IslandData::getSync($level);
         if ($islandData !== null) {
@@ -271,11 +283,11 @@ class IslandListener implements Listener
                 }
             }
         }
-       if($player->getWorld()->getBlock($player->getPosition())->getTypeId() === BlockTypeIds::NETHER_PORTAL) {
+        if ($player->getWorld()->getBlock($player->getPosition())->getTypeId() === BlockTypeIds::NETHER_PORTAL) {
             $world = Server::getInstance()->getWorldManager()->getWorldByName(API::getHub());
             $player->teleport($world->getSafeSpawn());
             $player->sendTitle("§6Welcome To Hub", "" . Utils::getServerName());
-       }
+        }
     }
 
     public function onDamage(EntityDamageEvent $event): void
@@ -284,31 +296,35 @@ class IslandListener implements Listener
         if ($player instanceof Player) {
             $level = $player->getWorld()->getFolderName();
 
-            if($level === API::getHub()) return;
+            if ($level === API::getHub()) {
+                return;
+            }
 
-             if ($event instanceof EntityDamageByEntityEvent) {
-                 $damager = $event->getDamager();
-                 $entity = $event->getEntity();
+            if ($event instanceof EntityDamageByEntityEvent) {
+                $damager = $event->getDamager();
+                $entity = $event->getEntity();
 
-                if (!$damager instanceof Player) return;
+                if (!$damager instanceof Player) {
+                    return;
+                }
 
-                     $damager->sendForm(new PlayerMenu($damager, $entity));
-                     $event->cancel();
-             }
-            
-                if ($event->getCause() === EntityDamageEvent::CAUSE_VOID) {
+                $damager->sendForm(new PlayerMenu($damager, $entity));
+                $event->cancel();
+            }
 
-                    $world = Server::getInstance()->getWorldManager()->getWorldByName($player->getName());
+            if ($event->getCause() === EntityDamageEvent::CAUSE_VOID) {
 
-                    if (!$world instanceof World) {
-                        return;
-                    }
+                $world = Server::getInstance()->getWorldManager()->getWorldByName($player->getName());
 
-                    $event->cancel();
+                if (!$world instanceof World) {
+                    return;
+                }
 
-                    $player->teleport($world->getSpawnLocation());
+                $event->cancel();
 
-                if($level === $player->getName()) {
+                $player->teleport($world->getSpawnLocation());
+
+                if ($level === $player->getName()) {
                     if ($player->getXpManager()->getXpLevel() >= 7) {
                         $xp = 7;
                         $player->getXpManager()->setXpLevel($player->getXpManager()->getXpLevel() - 7);
@@ -317,21 +333,21 @@ class IslandListener implements Listener
                 }
             }
 
-                $cancelCauses = [
-                 EntityDamageEvent::CAUSE_FALL,
-                 EntityDamageEvent::CAUSE_FIRE,
-                 EntityDamageEvent::CAUSE_FIRE_TICK,
-                 EntityDamageEvent::CAUSE_DROWNING,
-                 EntityDamageEvent::CAUSE_SUFFOCATION,
-                 EntityDamageEvent::CAUSE_MAGIC
+            $cancelCauses = [
+             EntityDamageEvent::CAUSE_FALL,
+             EntityDamageEvent::CAUSE_FIRE,
+             EntityDamageEvent::CAUSE_FIRE_TICK,
+             EntityDamageEvent::CAUSE_DROWNING,
+             EntityDamageEvent::CAUSE_SUFFOCATION,
+             EntityDamageEvent::CAUSE_MAGIC
               ];
 
-           if (in_array($event->getCause(), $cancelCauses, true)) {
-               $event->cancel();
+            if (in_array($event->getCause(), $cancelCauses, true)) {
+                $event->cancel();
                 if ($level === $player->getName()) {
                     $player->damagePlayer($event->getFinalDamage() * 2);
-                 }
-             }  
+                }
+            }
         }
     }
 }

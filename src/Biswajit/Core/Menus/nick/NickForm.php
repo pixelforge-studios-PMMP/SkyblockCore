@@ -10,7 +10,6 @@ use dktapps\pmforms\MenuOption;
 
 class NickForm extends MenuForm
 {
-
     public function __construct()
     {
         parent::__construct(

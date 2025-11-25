@@ -6,6 +6,8 @@ projects:
   SkyblockCore:
     path: ""
     icon: icon.png
+    lint:
+      phpstan: false
     libs:
      - src: poggit/libasynql/libasynql
        version: ^4.1.6

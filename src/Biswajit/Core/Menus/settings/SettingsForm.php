@@ -31,7 +31,7 @@ class SettingsForm extends MenuForm
                         $sender->sendForm(new NickForm());
                         return;
                     }
-                        $sender->sendMessage(Skyblock::$prefix . "§cThis menu is only for §r§c and + users!");
+                    $sender->sendMessage(Skyblock::$prefix . "§cThis menu is only for §r§c and + users!");
                     break;
 
                 case 1:
@@ -39,7 +39,7 @@ class SettingsForm extends MenuForm
                         $sender->sendForm(new HideForm());
                         return;
                     }
-                        $sender->sendMessage(Skyblock::$prefix . "§cThis menu is only for §r§c and + users!");
+                    $sender->sendMessage(Skyblock::$prefix . "§cThis menu is only for §r§c and + users!");
                     break;
 
                 case 2:
@@ -47,15 +47,15 @@ class SettingsForm extends MenuForm
                         $sender->sendForm(new SizeForm($sender));
                         return;
                     }
-                        $sender->sendMessage(Skyblock::$prefix . "§cThis menu is only for §r§c and + users!");
+                    $sender->sendMessage(Skyblock::$prefix . "§cThis menu is only for §r§c and + users!");
                     break;
 
                 case 3:
-                     if ($sender->hasPermission("perks.form")) {
+                    if ($sender->hasPermission("perks.form")) {
                         $sender->sendForm(new PerksForm());
                         return;
                     }
-                        $sender->sendMessage(Skyblock::$prefix . "§cThis menu is only for §r§c and + users!");
+                    $sender->sendMessage(Skyblock::$prefix . "§cThis menu is only for §r§c and + users!");
                     break;
 
                 case 4:
@@ -63,7 +63,7 @@ class SettingsForm extends MenuForm
                         $sender->sendForm(new VanishForm());
                         return;
                     }
-                        $sender->sendMessage(Skyblock::$prefix . "§cThis menu is only for §r§c and + users!");
+                    $sender->sendMessage(Skyblock::$prefix . "§cThis menu is only for §r§c and + users!");
                     break;
 
                 case 5:

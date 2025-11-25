@@ -11,7 +11,6 @@ use dktapps\pmforms\CustomFormResponse;
 
 class NickChangeForm extends CustomForm
 {
-
     public function __construct()
     {
         parent::__construct(

@@ -23,9 +23,9 @@ class DepositMenu extends MenuForm
         ], function (Player $sender, int $selected): void {
             switch ($selected) {
                 case 0:
-                  if (EconomyManager::getMoney($sender) == 0){
-                     $sender->sendMessage(Skyblock::$prefix . API::getMessage("bank.nodeposit"));
-                     return;
+                    if (EconomyManager::getMoney($sender) == 0) {
+                        $sender->sendMessage(Skyblock::$prefix . API::getMessage("bank.nodeposit"));
+                        return;
                     }
 
                     $sender->sendMessage(Skyblock::$prefix . API::getMessage("bank.deposit-seccess", ["{AMOUNT}" => (string)EconomyManager::getMoney($sender)]));
@@ -33,9 +33,9 @@ class DepositMenu extends MenuForm
                     EconomyManager::subtractMoney($sender, EconomyManager::getMoney($sender));
                     break;
                 case 1:
-                  if (EconomyManager::getMoney($sender) == 0){
-                     $sender->sendMessage(Skyblock::$prefix . API::getMessage("bank.nodeposit"));
-                     return;
+                    if (EconomyManager::getMoney($sender) == 0) {
+                        $sender->sendMessage(Skyblock::$prefix . API::getMessage("bank.nodeposit"));
+                        return;
                     }
 
                     $sender->sendMessage(Skyblock::$prefix . API::getMessage("bank.deposit-seccess", ["{AMOUNT}" => (string)(EconomyManager::getMoney($sender) / 2)]));

@@ -10,7 +10,6 @@ use dktapps\pmforms\MenuOption;
 
 class SizeForm extends MenuForm
 {
-
     public function __construct(Player $player)
     {
         $size = $player->getScale();

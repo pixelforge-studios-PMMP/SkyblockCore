@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Biswajit\Core\Menus\island\partner;
 
@@ -11,7 +11,6 @@ use Biswajit\Core\Managers\IslandManager;
 
 class PartnerRequestForm extends ModalForm
 {
-
     public function __construct(Player $requestPlayer)
     {
         parent::__construct(

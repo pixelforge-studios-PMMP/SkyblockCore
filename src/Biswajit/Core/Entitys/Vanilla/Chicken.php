@@ -13,7 +13,6 @@ use Throwable;
 
 class Chicken extends VanillaEntity
 {
-  
     private const Random_Time = 120;
     private int $lastRandomTime = 0;
 
@@ -30,7 +29,7 @@ class Chicken extends VanillaEntity
     public function onTick(): void
     {
         try {
-            if(++$this->lastRandomTime >= self::Random_Time){
+            if (++$this->lastRandomTime >= self::Random_Time) {
                 $this->lastRandomTime = 0;
                 $this->pathfinder->resetPath();
                 $this->wanderRandomly();

@@ -15,15 +15,15 @@ use pocketmine\Server;
 
 class RankCommand extends Command
 {
-
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct("setrank", "Set rank for a player", "/setrank <player> <rank>", []);
         $this->setPermission("staff.rank.cmd");
     }
 
     public function execute(CommandSender $sender, string $commandLabel, array $args): void
     {
-        if(!$this->testPermission($sender)) {
+        if (!$this->testPermission($sender)) {
             $sender->sendMessage(Skyblock::$prefix . API::getMessage("no-permission"));
             return;
         }

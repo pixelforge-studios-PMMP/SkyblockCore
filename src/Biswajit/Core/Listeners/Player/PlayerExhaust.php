@@ -7,9 +7,10 @@ namespace Biswajit\Core\Listeners\Player;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerExhaustEvent;
 
-class PlayerExhaust implements Listener {
-
-    public function onPlayerExhaust(PlayerExhaustEvent $event) {
+class PlayerExhaust implements Listener
+{
+    public function onPlayerExhaust(PlayerExhaustEvent $event)
+    {
         $event->cancel();
     }
- }
+}

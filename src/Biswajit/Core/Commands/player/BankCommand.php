@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Biswajit\Core\Commands\player;
 
@@ -20,8 +20,8 @@ class BankCommand extends Command
     public function execute(CommandSender $sender, string $commandLabel, array $args): mixed
     {
         if ($sender instanceof Player) {
-           $sender->sendForm(new BankMenu($sender));
-           return true;
+            $sender->sendForm(new BankMenu($sender));
+            return true;
         }
 
         $sender->sendMessage("Use this command in-game");

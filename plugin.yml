@@ -1,5 +1,5 @@
 name: SkyblockCore
-version: 0.1.6
+version: 0.1.7
 author: Biswajit
 main: Biswajit\Core\Skyblock
 api: 5.30.0

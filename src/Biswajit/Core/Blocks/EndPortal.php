@@ -15,29 +15,34 @@ use pocketmine\utils\CloningRegistryTrait;
 /**
  * @method static Transparent END_PORTAL()
  */
-final class EndPortal{
-	use CloningRegistryTrait;
+final class EndPortal
+{
+    use CloningRegistryTrait;
 
-	private function __construct(){
-		//NOOP
-	}
+    private function __construct()
+    {
+        //NOOP
+    }
 
-	protected static function register(string $name, Block $block) : void{
-		self::_registryRegister($name, $block);
-	}
+    protected static function register(string $name, Block $block): void
+    {
+        self::_registryRegister($name, $block);
+    }
 
-	/**
-	 * @return Block[]
-	 * @phpstan-return array<string, Block>
-	 */
-	public static function getAll() : array{
-		//phpstan doesn't support generic traits yet :(
-		/** @var Block[] $result */
-		$result = self::_registryGetAll();
-		return $result;
-	}
+    /**
+     * @return Block[]
+     * @phpstan-return array<string, Block>
+     */
+    public static function getAll(): array
+    {
+        //phpstan doesn't support generic traits yet :(
+        /** @var Block[] $result */
+        $result = self::_registryGetAll();
+        return $result;
+    }
 
-	protected static function setup() : void{
-		self::register("end_portal", new Transparent(new BlockIdentifier(BlockTypeIds::newId()), "End Portal", new BlockTypeInfo(BlockBreakInfo::indestructible())));
-	}
+    protected static function setup(): void
+    {
+        self::register("end_portal", new Transparent(new BlockIdentifier(BlockTypeIds::newId()), "End Portal", new BlockTypeInfo(BlockBreakInfo::indestructible())));
+    }
 }

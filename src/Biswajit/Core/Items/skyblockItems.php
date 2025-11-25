@@ -9,21 +9,24 @@ use pocketmine\item\Item;
 use pocketmine\data\bedrock\EnchantmentIdMap;
 use pocketmine\item\enchantment\EnchantmentInstance;
 
-class skyblockItems extends Item {
-    
+class skyblockItems extends Item
+{
     /** @var array<string[]> */
     private array $description = [];
 
-    public function setDescription(array $description): void {
+    public function setDescription(array $description): void
+    {
         $this->description[spl_object_id($this)] = $description;
         $this->updateDescription();
     }
 
-    public function getDescription(): array {
+    public function getDescription(): array
+    {
         return $this->description[spl_object_id($this)] ?? [];
     }
 
-    public function updateDescription(): void {
+    public function updateDescription(): void
+    {
         $lore = [];
 
         foreach ($this->getDescription() as $line) {
@@ -33,7 +36,8 @@ class skyblockItems extends Item {
         $this->setLore($lore);
     }
 
-  public function addGlow(): void {
-     $this->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Skyblock::FAKE_ENCH_ID)));
-  }
+    public function addGlow(): void
+    {
+        $this->addEnchantment(new EnchantmentInstance(EnchantmentIdMap::getInstance()->fromId(Skyblock::FAKE_ENCH_ID)));
+    }
 }

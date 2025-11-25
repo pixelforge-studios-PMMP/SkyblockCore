@@ -23,7 +23,7 @@ class ActionbarTask extends Task
                 }
 
                 $player->sendActionBarMessage("§c❤ {$health}§7/§c{$maxhealth}  §a {$defense}  §b {$mana}§7/§b{$maxMana}");
-           }
+            }
         }
     }
 }
