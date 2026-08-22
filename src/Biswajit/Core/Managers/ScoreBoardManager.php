@@ -9,6 +9,7 @@ use pocketmine\network\mcpe\protocol\RemoveObjectivePacket;
 use pocketmine\network\mcpe\protocol\SetDisplayObjectivePacket;
 use pocketmine\network\mcpe\protocol\SetScorePacket;
 use pocketmine\network\mcpe\protocol\types\ScorePacketEntry;
+use pocketmine\Server;
 
 class ScoreBoardManager
 {
@@ -34,10 +35,34 @@ class ScoreBoardManager
         $entry->customName = "$msg";
         $entry->score = $score;
         $entry->scoreboardId = $score;
-        $playerk = new SetScorePacket();
-        $playerk->type = 0;
-        $playerk->entries[$score] = $entry;
-        $player->getNetworkSession()->sendDataPacket($playerk);
+
+        // Compatibility: prefer static factory if available, otherwise fall back to manual packet
+        $type = defined(SetScorePacket::class . '::TYPE_CHANGE') ? SetScorePacket::TYPE_CHANGE : 0;
+
+        if (method_exists(SetScorePacket::class, "create")) {
+            try {
+                $pk = SetScorePacket::create($type, [$entry]);
+            } catch (\Throwable $e) {
+                // fallback manual
+                $pk = new SetScorePacket();
+                if (property_exists($pk, "type")) {
+                    $pk->type = $type;
+                }
+                $pk->entries = [$entry];
+            }
+        } else {
+            $pk = new SetScorePacket();
+            if (property_exists($pk, "type")) {
+                $pk->type = $type;
+            }
+            $pk->entries = [$entry];
+        }
+
+        try {
+            $player->getNetworkSession()->sendDataPacket($pk);
+        } catch (\Throwable $e) {
+            Server::getInstance()->getLogger()->debug("SkyblockCore: Failed sending scoreboard packet to {$player->getName()}: " . $e->getMessage());
+        }
     }
 
     public static function createScoreboard(Player $player, string $title, string $objName, string $slot = "sidebar", $order = 0): void

@@ -15,6 +15,7 @@ use Biswajit\Core\Utils\Utils;
 use muqsit\invmenu\InvMenuHandler;
 use pocketmine\data\bedrock\EnchantmentIdMap;
 use pocketmine\item\enchantment\Enchantment;
+use pocketmine\player\Player;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;
 use pocketmine\utils\SingletonTrait;

@@ -7,11 +7,13 @@ namespace Biswajit\Core;
 use Biswajit\Core\Entitys\Minion\MinionEntity;
 use Biswajit\Core\Managers\IslandManager;
 use pocketmine\item\Item;
+use pocketmine\item\ItemFactory;
 use pocketmine\item\StringToItemParser;
 use pocketmine\math\AxisAlignedBB;
 use pocketmine\resourcepacks\ZippedResourcePack;
 use pocketmine\Server;
 use pocketmine\utils\Config;
+use pocketmine\player\Player;
 use pocketmine\world\World;
 use ReflectionException;
 use ReflectionProperty;
@@ -235,23 +237,54 @@ class API
     }
 
     /**
-     * Gets a message from messages.yml
+     * Gets a message from messages.yml (safe)
      */
     public static function getMessage(string $key, array $replace = []): string|array
     {
-        $file = new Config(Skyblock::getInstance()->getDataFolder() . "messages.yml", Config::YAML, []);
+        $plugin = Skyblock::getInstance();
+        if ($plugin === null) {
+            return is_array($replace) ? $replace : "Message '$key' not found";
+        }
+
+        $dataFolder = $plugin->getDataFolder();
+        if (!is_dir($dataFolder)) {
+            @mkdir($dataFolder, 0777, true);
+        }
+
+        $messagesPath = $dataFolder . "messages.yml";
+        $file = new Config($messagesPath, Config::YAML, []);
         $message = $file->getNested($key) ?? "Message '$key' not found";
+
         foreach ($replace as $search => $value) {
             $message = str_replace($search, $value, $message);
         }
+
         return $message;
     }
 
     /**
-     * Gets a custom Skyblock item by identifier
+     * Gets a custom Skyblock item by identifier (safe)
+     *
+     * Returns a valid Item instance. If parsing fails, returns a safe fallback (air).
      */
     public static function getItem(string $identifier): Item
     {
-        return StringToItemParser::getInstance()->parse("skyblock:$identifier");
+        try {
+            $parser = StringToItemParser::getInstance();
+            $item = $parser->parse("skyblock:$identifier");
+            if ($item instanceof Item) {
+                return $item;
+            }
+        } catch (\Throwable $e) {
+            Server::getInstance()->getLogger()->warning("SkyblockCore: StringToItemParser failed for skyblock:$identifier: " . $e->getMessage());
+        }
+
+        // Fallback to air via ItemFactory for compatibility
+        try {
+            return ItemFactory::getInstance()->get(0);
+        } catch (\Throwable $e) {
+            // Last-resort: create an Item object manually for older versions
+            return new Item(0, 0, 0);
+        }
     }
 }
